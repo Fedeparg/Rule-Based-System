@@ -2,29 +2,34 @@
 #include <string>
 #include <fstream>
 #include <cstdlib>
+#include <map>
 #include "Config.hh"
 #include "Knowledge_base.hh"
 
 using namespace std;
 
-void Config::set_goal(const string &goal)
+string Config::get_argument_type(string key){
+    return map_arguments.find(key)->second;
+}
+
+void Config::set_goal(const string &new_goal)
 {
-    this->goal = goal;
+    goal = new_goal;
 }
 
 string Config::get_goal()
 {
-    return this->goal;
+    return goal;
 }
 
-void Config::set_rules_priority(int *rules_priority)
+void Config::set_rules_priority(int *new_rules_priority)
 {
-    this->rules_priority = rules_priority;
+    rules_priority = new_rules_priority;
 }
 
-int *Config::get_rules_priority()
+int Config::get_rule_priority(int nrule)
 {
-    return this->rules_priority;
+    return rules_priority[nrule];
 }
 
 void Config::parse_rules_priority(ifstream &config_file)
@@ -34,7 +39,7 @@ void Config::parse_rules_priority(ifstream &config_file)
     config_file >> num_rules;
     int *rules_priority = new int[num_rules];
     int value = 0;
-    for(int i = 0; i < num_rules; i++)
+    for (int i = 0; i < num_rules; i++)
     {
         config_file >> value;
         rules_priority[i] = value;
@@ -44,26 +49,27 @@ void Config::parse_rules_priority(ifstream &config_file)
 
 void Config::parse_atributes(ifstream &config_file)
 {
-    string str;
+    string str, type;
     int num_atributes;
     config_file >> num_atributes;
 
     for (int i = 0; i < num_atributes; i++)
     {
         config_file >> str;
-        cout << str << endl;
-        char type[4];
-        memset(type, 0, 4);
         config_file >> type;
-        cout << type << endl;
-        if (strcmp(type, "NU") != 0)
-        {
-            config_file >> str;
-            size_t pos = str.find("}");
-            str = str.substr(1, pos - 1);
-            cout << str << endl;
-        }
-        cout << endl;
+        map_arguments.insert(pair<string, string>(str, type));
+
+        int tmp_s = type.size() + 1;
+        char tmp[tmp_s];
+        strcpy(tmp, type.c_str());
+        // if (strcmp(tmp, "NU") != 0)
+        // {
+        //     config_file >> str;
+        //     size_t pos = str.find("}") - 1;
+        //     str = str.substr(1, pos);
+        //     cout << str << endl;
+        // }
+        // cout << endl;
     }
     getline(config_file, str);
 }
@@ -127,7 +133,7 @@ int Config::read_config_file(const string &file)
         case 3:
             parse_rules_priority(config_file);
             break;
-            
+
         default:
             break;
         }
@@ -139,6 +145,12 @@ int Config::read_config_file(const string &file)
     return 0;
 }
 
-Config::~Config(){
-    delete[]rules_priority;
+Config::Config()
+{
+    set_rules_priority(nullptr);
+    set_goal("");
+}
+Config::~Config()
+{
+    delete[] rules_priority;
 }

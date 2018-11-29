@@ -6,5 +6,5 @@
 using namespace std;
 
 int Knowledge_base::read_knowledge_base() {
-    return 5;
+    return 0;
 }

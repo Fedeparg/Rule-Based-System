@@ -7,11 +7,11 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    Config c;
-    if (c.read_config_file(argv[2])){
+    Config *c = new Config();
+    if (c->read_config_file(argv[2]))
+    {
         cerr << "Could not parse configuration file" << endl;
         exit(1);
     }
-
     return 0;
 }
