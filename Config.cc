@@ -8,7 +8,8 @@
 
 using namespace std;
 
-string Config::get_argument_type(string key){
+string Config::get_argument_type(string key)
+{
     return map_arguments.find(key)->second;
 }
 
@@ -32,9 +33,8 @@ int Config::get_rule_priority(int nrule)
     return rules_priority[nrule];
 }
 
-void Config::parse_rules_priority(ifstream &config_file)
+void Config::parse_rules_priority()
 {
-    string str;
     int num_rules;
     config_file >> num_rules;
     int *rules_priority = new int[num_rules];
@@ -47,31 +47,30 @@ void Config::parse_rules_priority(ifstream &config_file)
     set_rules_priority(rules_priority);
 }
 
-void Config::parse_atributes(ifstream &config_file)
+void Config::parse_atributes()
 {
-    string str, type;
+    string atribute, type;
     int num_atributes;
     config_file >> num_atributes;
 
     for (int i = 0; i < num_atributes; i++)
     {
-        config_file >> str;
+        config_file >> atribute;
         config_file >> type;
-        map_arguments.insert(pair<string, string>(str, type));
+        map_arguments.insert(pair<string, string>(atribute, type));
 
         int tmp_s = type.size() + 1;
         char tmp[tmp_s];
         strcpy(tmp, type.c_str());
-        // if (strcmp(tmp, "NU") != 0)
-        // {
-        //     config_file >> str;
-        //     size_t pos = str.find("}") - 1;
-        //     str = str.substr(1, pos);
-        //     cout << str << endl;
-        // }
-        // cout << endl;
+        if (strcmp(tmp, "NU") != 0)
+        {
+            config_file >> atribute;
+            // size_t pos = atribute.find("}") - 1;
+            // atribute = atribute.substr(1, pos);
+            // cout << atribute << endl;
+        }
     }
-    getline(config_file, str);
+    getline(config_file, atribute);
 }
 
 int Config::keywords(const string &keyword)
@@ -98,21 +97,13 @@ int Config::keywords(const string &keyword)
         return 3;
     }
 
+    // If the keyword is not recognized, is ignored
     return 0;
 }
 
-int Config::read_config_file(const string &file)
+void Config::read_config_file()
 {
-    ifstream config_file;   // var to read a file
-    string str;             // Buffer to place the lines
-    config_file.open(file); // Open the file
-
-    // Check errors
-    if (!config_file)
-    {
-        cerr << "Unable to open configuration file" << endl;
-        return 1;
-    }
+    string str; // Buffer to place the lines
 
     // Read file line by line
     while (getline(config_file, str))
@@ -122,7 +113,7 @@ int Config::read_config_file(const string &file)
         switch (keyword)
         {
         case 1:
-            parse_atributes(config_file);
+            parse_atributes();
             break;
 
         case 2:
@@ -131,7 +122,7 @@ int Config::read_config_file(const string &file)
             break;
 
         case 3:
-            parse_rules_priority(config_file);
+            parse_rules_priority();
             break;
 
         default:
@@ -141,15 +132,18 @@ int Config::read_config_file(const string &file)
 
     // Close file
     config_file.close();
-
-    return 0;
 }
 
-Config::Config()
+Config::Config(ifstream &file) : config_file(file)
 {
+    // Initialize the values
     set_rules_priority(nullptr);
     set_goal("");
+
+    // Read the file
+    read_config_file();
 }
+
 Config::~Config()
 {
     delete[] rules_priority;
