@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <cstring>
 #include <fstream>
 #include <list>
 #include "Rule.hh"

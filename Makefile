@@ -20,5 +20,5 @@ atribute.o: Atribute.cc
 	$(CC) $(CFLAGS) Atribute.cc
 
 clean:
-	rm -f *.o *.gch
+	rm -f *.o *.gch sbr
 	

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 #include <string>
 #include <fstream>
 #include <list>
@@ -8,30 +9,41 @@
 
 using namespace std;
 
+bool check_file(ifstream &file, const char *file_name)
+{
+    if (!file)
+    {
+        cerr << "Unable to open file \"" << file_name << "\"" << endl;
+        return 1;
+    }
+
+    return 0;
+}
+
 int main(int argc, char const *argv[])
 {
     ifstream file_kb(argv[1]);
     ifstream config_file(argv[2]);
-
-    if (!config_file || !file_kb)
+    if (check_file(file_kb, argv[1]) || check_file(config_file, argv[2]))
     {
-        cerr << "Unable to open file" << endl;
-        return 1;
+        exit(1);
     }
 
     Config *c = new Config(config_file);
     Knowledge_base *kb = new Knowledge_base(file_kb);
 
-        list<Rule> lista = kb->get_rules();
-    Rule r = lista.front();
-    for (list<Rule>::iterator it = lista.begin(); it != lista.end(); ++it)
-    {
-        cout << "Número de subreglas " << it->get_num_sub_rules() << endl;
-        cout << it->get_sub_rules()[it->get_num_sub_rules()].get_atribute();
-        cout << " " << it->get_sub_rules()[it->get_num_sub_rules()].get_op();
-        cout << " " << it->get_sub_rules()[it->get_num_sub_rules()].get_value() << endl;
-    }
-    cout << lista.size();
+    // cout << c->get_argument_type("NSemillas") << endl;
+    // cout << kb->get_domain() << endl;
+    // list<Rule> lista = kb->get_rules();
+    // Rule r = lista.front();
+    // for (list<Rule>::iterator it = lista.begin(); it != lista.end(); ++it)
+    // {
+    //     cout << "Número de subreglas " << it->get_num_sub_rules() << endl;
+    //     cout << it->get_sub_rules()[it->get_num_sub_rules()].get_atribute();
+    //     cout << " " << it->get_sub_rules()[it->get_num_sub_rules()].get_op();
+    //     cout << " " << it->get_sub_rules()[it->get_num_sub_rules()].get_value() << endl;
+    // }
+    // cout << lista.size();
 
     delete c;
     delete kb;
