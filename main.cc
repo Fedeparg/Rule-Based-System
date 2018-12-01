@@ -3,13 +3,14 @@
 #include <string>
 #include <fstream>
 #include <list>
+
 #include "Config.hh"
-#include "Knowledge_base.hh"
+#include "KnowledgeBase.hh"
 #include "Rule.hh"
 
 using namespace std;
 
-bool check_file(ifstream &file, const char *file_name)
+bool CheckFile(ifstream &file, const char *file_name)
 {
     if (!file)
     {
@@ -24,28 +25,28 @@ int main(int argc, char const *argv[])
 {
     ifstream file_kb(argv[1]);
     ifstream config_file(argv[2]);
-    if (check_file(file_kb, argv[1]) || check_file(config_file, argv[2]))
+    if (CheckFile(file_kb, argv[1]) || CheckFile(config_file, argv[2]))
     {
         exit(1);
     }
 
     Config *c = new Config(config_file);
-    Knowledge_base *kb = new Knowledge_base(file_kb);
+    KnowledgeBase *kb = new KnowledgeBase(file_kb, *c);
 
-    // cout << c->get_argument_type("NSemillas") << endl;
-    // cout << kb->get_domain() << endl;
-    // list<Rule> lista = kb->get_rules();
-    // Rule r = lista.front();
-    // for (list<Rule>::iterator it = lista.begin(); it != lista.end(); ++it)
-    // {
-    //     cout << "Número de subreglas " << it->get_num_sub_rules() << endl;
-    //     cout << it->get_sub_rules()[it->get_num_sub_rules()].get_atribute();
-    //     cout << " " << it->get_sub_rules()[it->get_num_sub_rules()].get_op();
-    //     cout << " " << it->get_sub_rules()[it->get_num_sub_rules()].get_value() << endl;
-    // }
-    // cout << lista.size();
+    cout << c->GetArgumentType("NSemillas") << endl;
+    cout << kb->GetDomain() << endl;
+    list<Rule> lista = kb->GetRules();
+    Rule r = lista.front();
+    for (list<Rule>::iterator it = lista.begin(); it != lista.end(); ++it)
+    {
+        cout << "Número de subreglas " << it->GetNumSubRules() << endl;
+        cout << it->GetSubRules()[it->GetNumSubRules()].GetAtribute();
+        cout << " " << it->GetSubRules()[it->GetNumSubRules()].GetOp();
+        cout << " " << it->GetSubRules()[it->GetNumSubRules()].GetValue() << endl;
+    }
+    cout << lista.size() << endl;
 
-    delete c;
+    // 'kb' contains a reference to c, so it will call his destructor
     delete kb;
     return 0;
 }

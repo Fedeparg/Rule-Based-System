@@ -3,36 +3,37 @@
 
 using namespace std;
 
-string Atribute::get_atribute()
+string Atribute::GetAtribute()
 {
     return atribute.atribute;
 }
 
-string Atribute::get_op()
+string Atribute::GetOp()
 {
     return atribute.op;
 }
 
-string Atribute::get_value()
+string Atribute::GetValue()
 {
     return atribute.value;
 }
 
-void Atribute::set_atribute(const std::string &word)
+void Atribute::SetAtribute(const std::string &word)
 {
     atribute.atribute = word;
 }
-void Atribute::set_op(const std::string &word)
+void Atribute::SetOp(const std::string &word)
 {
     atribute.op = word;
 }
-void Atribute::set_value(const std::string &word)
+void Atribute::SetValue(const std::string &word)
 {
     atribute.value = word;
 }
 
 Atribute::Atribute()
 {
+    memset(&atribute, 0, sizeof(atribute));
 }
 
 Atribute::~Atribute()

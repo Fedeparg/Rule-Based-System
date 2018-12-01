@@ -1,24 +1,28 @@
 CC = g++
 CFLAGS = -c -Wall
+CXXVER = -std=c++11 # Set the C11 standard
 
-sbr: main.o config.o knowledge_base.o rule.o atribute.o
-	$(CC) main.o config.o knowledge_base.o rule.o atribute.o -o sbr
+sbr: main.o config.o KnowledgeBase.o rule.o atribute.o
+	$(CC) $(CXXVER) main.o config.o KnowledgeBase.o rule.o atribute.o -o sbr
 
 main.o: main.cc
-	$(CC) $(CFLAGS) main.cc
+	$(CC) $(CXXVER) $(CFLAGS) main.cc
 
 config.o: Config.cc
-	$(CC) $(CFLAGS) Config.cc
+	$(CC) $(CXXVER) $(CFLAGS) Config.cc
 
-knowledge_base.o: Knowledge_base.cc
-	$(CC) $(CFLAGS) Knowledge_base.cc
+KnowledgeBase.o: KnowledgeBase.cc
+	$(CC) $(CXXVER) $(CFLAGS) KnowledgeBase.cc
 
-rule.o: Rule.cc atribute.o
-	$(CC) $(CFLAGS) Rule.cc
+rule.o: Rule.cc
+	$(CC) $(CXXVER) $(CFLAGS) Rule.cc
 
 atribute.o: Atribute.cc
-	$(CC) $(CFLAGS) Atribute.cc
+	$(CC) $(CXXVER) $(CFLAGS) Atribute.cc
+
+cleanall:
+	rm -f *.o *.gch sbr
 
 clean:
-	rm -f *.o *.gch sbr
+	rm -f *.o *.gch
 	

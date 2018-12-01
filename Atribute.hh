@@ -4,6 +4,16 @@
 
 class Atribute
 {
+public:
+  std::string GetAtribute();
+  std::string GetOp();
+  std::string GetValue();
+  void SetAtribute(const std::string &word);
+  void SetOp(const std::string &word);
+  void SetValue(const std::string &word);
+  Atribute();
+  ~Atribute();
+
 private:
   struct struc
   {
@@ -13,16 +23,6 @@ private:
   };
 
   struc atribute;
-
-public:
-  std::string get_atribute();
-  std::string get_op();
-  std::string get_value();
-  void set_atribute(const std::string &word);
-  void set_op(const std::string &word);
-  void set_value(const std::string &word);
-  Atribute();
-  ~Atribute();
 };
 
 #endif

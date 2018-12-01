@@ -4,71 +4,76 @@
 #include <fstream>
 #include <cstdlib>
 #include <map>
+
 #include "Config.hh"
-#include "Knowledge_base.hh"
+#include "KnowledgeBase.hh"
 
 using namespace std;
 
-string Config::get_argument_type(string key)
+string Config::GetArgumentType(string key)
 {
     return map_arguments.find(key)->second;
 }
 
-void Config::set_goal(const string &new_goal)
+void Config::SetGoal(const string &new_goal)
 {
     goal = new_goal;
 }
 
-string Config::get_goal()
+string Config::GetGoal()
 {
     return goal;
 }
 
-void Config::set_rules_priority(int *new_rules_priority)
+ifstream &Config::GetFile()
+{
+    return config_file;
+}
+
+void Config::SetRulesPriority(int *new_rules_priority)
 {
     rules_priority = new_rules_priority;
 }
 
-int Config::get_rule_priority(int nrule)
+int Config::GetRulePriority(int nrule)
 {
     return rules_priority[nrule];
 }
 
-void Config::parse_rules_priority()
+void Config::ParseRulesPriority()
 {
-    int num_rules;
+    int num_rules = 0;
     config_file >> num_rules;
     int *rules_priority = new int[num_rules];
     int value = 0;
-    for (int i = 0; i < num_rules; i++)
+
+    for (int i = 0; i < num_rules; ++i)
     {
         config_file >> value;
         rules_priority[i] = value;
     }
-    set_rules_priority(rules_priority);
+
+    SetRulesPriority(rules_priority);
 }
 
-void Config::parse_atributes()
+void Config::ParseAtributes()
 {
     string atribute, type;
     int num_atributes;
     config_file >> num_atributes;
 
-    for (int i = 0; i < num_atributes; i++)
+    for (int i = 0; i < num_atributes; ++i)
     {
         config_file >> atribute;
         config_file >> type;
         map_arguments.insert(pair<string, string>(atribute, type));
 
-        int tmp_s = type.size() + 1;
-        char tmp[tmp_s];
+        int tmp_size = type.size() + 1;
+        char tmp[tmp_size];
         strcpy(tmp, type.c_str());
         if (strcmp(tmp, "NU") != 0)
         {
             config_file >> atribute;
-            // size_t pos = atribute.find("}") - 1;
-            // atribute = atribute.substr(1, pos);
-            // cout << atribute << endl;
         }
     }
     getline(config_file, atribute);
@@ -80,7 +85,7 @@ int Config::keywords(const string &keyword)
     char kyw[kyw_size];
     strcpy(kyw, keyword.c_str());
 
-    for (int i = 0; i < kyw_size; i++)
+    for (int i = 0; i < kyw_size; ++i)
     {
         kyw[i] = toupper(kyw[i]);
     }
@@ -102,47 +107,44 @@ int Config::keywords(const string &keyword)
     return 0;
 }
 
-void Config::read_config_file()
+void Config::ReadConfigFile()
 {
-    string str; // Buffer to place the lines
+    string line; // Buffer to place the lines
 
     // Read file line by line
-    while (getline(config_file, str))
+    while (getline(config_file, line))
     {
         string goal;
-        int keyword = keywords(str);
+        int keyword = keywords(line);
         switch (keyword)
         {
         case 1:
-            parse_atributes();
+            ParseAtributes();
             break;
 
         case 2:
             getline(config_file, goal);
-            set_goal(goal);
+            SetGoal(goal);
             break;
 
         case 3:
-            parse_rules_priority();
+            ParseRulesPriority();
             break;
 
         default:
             break;
         }
     }
-
-    // Close file
-    config_file.close();
 }
 
 Config::Config(ifstream &file) : config_file(file)
 {
     // Initialize the values
-    set_rules_priority(nullptr);
-    set_goal("");
+    SetRulesPriority(nullptr);
+    SetGoal("");
 
     // Read the file
-    read_config_file();
+    ReadConfigFile();
 }
 
 Config::~Config()
