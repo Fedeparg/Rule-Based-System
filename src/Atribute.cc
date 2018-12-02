@@ -1,4 +1,4 @@
-#include "Atribute.hh"
+#include "Atribute.h"
 #include <string>
 
 using namespace std;

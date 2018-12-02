@@ -1,4 +1,4 @@
-#include "Rule.hh"
+#include "Rule.h"
 
 using namespace std;
 

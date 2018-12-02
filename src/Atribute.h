@@ -1,7 +1,10 @@
-#ifndef ATRIBUTE_HH
-#define ATRIBUTE_HH
+#ifndef SBR_ATRIBUTE_H
+#define SBR_ATRIBUTE_H
 #include <string>
 
+// Stores the name of the atribute, the operator and the value assigned.
+// Created as a class to improve the workflow when comparing rules with
+// the FactsBase
 class Atribute
 {
  public:

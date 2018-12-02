@@ -1,8 +1,10 @@
-#ifndef CONFIG_HH
-#define CONFIG_HH
+#ifndef SBR_CONFIG_H
+#define SBR_CONFIG_H
 #include <string>
 #include <map>
 
+// Reads the config file and stores the information for future use in other
+// objects
 class Config
 {
  public:

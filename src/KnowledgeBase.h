@@ -1,11 +1,13 @@
-#ifndef KnowledgeBase_HH
-#define KnowledgeBase_HH
+#ifndef SBR_KNOWLEDGEBASE_H
+#define SBR_KNOWLEDGEBASE_H
 #include <list>
 #include <string>
 
-#include "Rule.hh"
-#include "Config.hh"
+#include "Rule.h"
+#include "Config.h"
 
+// Reads the Knowledge base that store the rules and are used by the inference
+// engine
 class KnowledgeBase
 {
  public:

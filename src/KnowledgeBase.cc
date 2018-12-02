@@ -5,10 +5,10 @@
 #include <fstream>
 #include <list>
 
-#include "Rule.hh"
-#include "Config.hh"
-#include "KnowledgeBase.hh"
-#include "Atribute.hh"
+#include "Rule.h"
+#include "Config.h"
+#include "KnowledgeBase.h"
+#include "Atribute.h"
 
 using namespace std;
 

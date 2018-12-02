@@ -4,9 +4,9 @@
 #include <fstream>
 #include <list>
 
-#include "Config.hh"
-#include "KnowledgeBase.hh"
-#include "Rule.hh"
+#include "Config.h"
+#include "KnowledgeBase.h"
+#include "Rule.h"
 
 using namespace std;
 
@@ -15,17 +15,20 @@ bool CheckFile(ifstream &file, const char *file_name)
   if (!file)
   {
     cerr << "Unable to open file \"" << file_name << "\"" << endl;
-    return 1;
+    return false;
   }
 
-  return 0;
+  return true;
 }
 
 int main(int argc, char const *argv[])
 {
   ifstream file_kb(argv[1]);
   ifstream config_file(argv[2]);
-  if (CheckFile(file_kb, argv[1]) || CheckFile(config_file, argv[2]))
+
+  // Checks if the files can be opened
+  if (!CheckFile(file_kb, argv[1]) ||
+      !CheckFile(config_file, argv[2]))
   {
     exit(1);
   }

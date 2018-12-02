@@ -5,8 +5,8 @@
 #include <cstdlib>
 #include <map>
 
-#include "Config.hh"
-#include "KnowledgeBase.hh"
+#include "Config.h"
+#include "KnowledgeBase.h"
 
 using namespace std;
 
