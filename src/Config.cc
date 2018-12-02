@@ -137,7 +137,7 @@ void Config::ReadConfigFile()
   }
 }
 
-Config::Config(ifstream &file) : config_file(file)
+Config::Config(ifstream &config_file) : config_file(config_file)
 {
   // Initialize the values
   SetRulesPriority(nullptr);

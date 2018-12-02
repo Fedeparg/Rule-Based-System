@@ -1,5 +1,6 @@
 #ifndef SBR_RULE_H
 #define SBR_RULE_H
+
 #include <string>
 
 #include "Atribute.h"

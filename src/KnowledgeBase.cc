@@ -36,7 +36,8 @@ string KnowledgeBase::GetDomain()
 
 list<Rule> KnowledgeBase::GetRules()
 {
-  return rules;
+  list<Rule> rules_copy(rules);
+  return (rules_copy);
 }
 
 void KnowledgeBase::ParseRules(const string &line)

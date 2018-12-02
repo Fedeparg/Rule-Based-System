@@ -1,5 +1,6 @@
 #ifndef SBR_CONFIG_H
 #define SBR_CONFIG_H
+
 #include <string>
 #include <map>
 
@@ -14,7 +15,7 @@ class Config
   void SetRulesPriority(int *new_rules_priority);
   int GetRulePriority(int nrule);
   std::string GetArgumentType(std::string);
-  Config(std::ifstream &file);
+  Config(std::ifstream &config_file);
   ~Config();
 
  private:

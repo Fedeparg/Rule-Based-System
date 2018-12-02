@@ -1,5 +1,6 @@
 #ifndef SBR_ATRIBUTE_H
 #define SBR_ATRIBUTE_H
+
 #include <string>
 
 // Stores the name of the atribute, the operator and the value assigned.

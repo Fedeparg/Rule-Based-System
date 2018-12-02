@@ -1,5 +1,6 @@
 #ifndef SBR_KNOWLEDGEBASE_H
 #define SBR_KNOWLEDGEBASE_H
+
 #include <list>
 #include <string>
 
