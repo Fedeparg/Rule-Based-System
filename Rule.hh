@@ -6,7 +6,7 @@
 
 class Rule
 {
-public:
+ public:
   void SetSubRules(Atribute &new_sub_rules);
   int GetNumSubRules();
   int GetRulePriority();
@@ -16,7 +16,7 @@ public:
   Rule();
   ~Rule();
 
-private:
+ private:
   int num_sub_rules;
   int rule_priority;
   Atribute *sub_rules;

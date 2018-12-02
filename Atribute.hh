@@ -4,7 +4,7 @@
 
 class Atribute
 {
-public:
+ public:
   std::string GetAtribute();
   std::string GetOp();
   std::string GetValue();
@@ -14,7 +14,7 @@ public:
   Atribute();
   ~Atribute();
 
-private:
+ private:
   struct struc
   {
     std::string atribute;

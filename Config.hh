@@ -5,7 +5,7 @@
 
 class Config
 {
-  public:
+ public:
   void SetGoal(const std::string &new_goal);
   std::string GetGoal();
   std::ifstream& GetFile();
@@ -15,7 +15,7 @@ class Config
   Config(std::ifstream &file);
   ~Config();
 
-private:
+ private:
   int *rules_priority;
   std::string goal;
   std::map<std::string, std::string> map_arguments;

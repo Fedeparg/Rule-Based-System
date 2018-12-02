@@ -8,7 +8,7 @@
 
 class KnowledgeBase
 {
-public:
+ public:
   void SetNumRules(int new_num_rules);
   int GetNumRules();
   void SetDomain(const std::string &new_domain);
@@ -17,7 +17,7 @@ public:
   KnowledgeBase(std::ifstream &file_kb, Config &conf);
   ~KnowledgeBase();
 
-private:
+ private:
   std::list<Rule> rules;
   std::string domain;
   std::ifstream &file_kb;
