@@ -36,8 +36,12 @@ string KnowledgeBase::GetDomain()
 
 list<Rule> KnowledgeBase::GetRules()
 {
-  list<Rule> rules_copy(rules);
-  return (rules_copy);
+  return rules;
+}
+
+void KnowledgeBase::SetRules(list<Rule> new_rules)
+{
+  rules = new_rules;
 }
 
 void KnowledgeBase::ParseRules(const string &line)
@@ -51,7 +55,6 @@ void KnowledgeBase::ParseRules(const string &line)
   s >> st1;
   while (s >> st1)
   {
-    // Ignore first two words
     char tmp[st1.size()];
     strcpy(tmp, st1.c_str());
     if (strcmp(tmp, "y") == 0)
@@ -60,6 +63,7 @@ void KnowledgeBase::ParseRules(const string &line)
     Atribute *atr = new Atribute();
     s >> st1;
     atr->SetAtribute(st1);
+    atr->SetType(conf.GetArgumentType(st1));
     s >> st1;
     atr->SetOp(st1);
     s >> st1;

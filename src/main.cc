@@ -9,6 +9,7 @@
 #include "Rule.h"
 #include "FactsBase.h"
 #include "Atribute.h"
+#include "InferenceEngine.h"
 
 using namespace std;
 
@@ -45,33 +46,10 @@ int main(int argc, char const *argv[])
   KnowledgeBase *kb = new KnowledgeBase(file_kb, *c);
   FactsBase *fb = new FactsBase(file_facts);
 
-  cout << c->GetArgumentType("NSemillas") << endl;
-  cout << kb->GetDomain() << endl;
-  // list<Rule> lista = kb->GetRules();
-  // cout << endl;
-  // for (list<Rule>::iterator it = lista.begin(); it != lista.end(); ++it)
-  // {
-  //   cout << "Número de subreglas: " << it->GetNumSubRules() << endl;
-  //   Atribute *atr = it->GetSubRules();
-  //   for (int i = 0; i <= it->GetNumSubRules(); i++)
-  //   {
-  //     cout << atr[i].GetAtribute();
-  //     cout << " " << atr[i].GetOp();
-  //     cout << " " << atr[i].GetValue() << endl;
-  //   }
-  //   cout << endl;
-  // }
-  // cout << lista.size() << endl;
-
-  list<Atribute> lista = fb->GetListFacts();
-  for (list<Atribute>::iterator it = lista.begin(); it != lista.end(); ++it)
-  {
-    cout << it->GetAtribute();
-    cout << " " << it->GetOp();
-    cout << " " << it->GetValue() << endl;
-  }
+  //InferenceEngine::Test(*kb, *c, *fb);
+  InferenceEngine::ForwardChaining(*kb, *c, *fb);
 
   // 'kb' contains a reference to c, so it will call his destructor
-  delete kb;
+  // delete kb;
   return 0;
 }

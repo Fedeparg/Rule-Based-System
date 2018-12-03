@@ -16,6 +16,7 @@ class KnowledgeBase
   int GetNumRules();
   void SetDomain(const std::string &new_domain);
   std::list<Rule> GetRules();
+  void SetRules(std::list<Rule>);
   std::string GetDomain();
   KnowledgeBase(std::ifstream &file_kb, Config &conf);
   ~KnowledgeBase();

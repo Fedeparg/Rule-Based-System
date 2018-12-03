@@ -2,8 +2,8 @@ CC = g++
 CFLAGS = -c -Wall	# All warnings to be treated as errors
 CXXVER = -std=c++11	# Set the C11 standard
 
-sbr: main.o Config.o KnowledgeBase.o Rule.o Atribute.o FactsBase.o
-	$(CC) $(CXXVER) -Wall main.o Config.o KnowledgeBase.o Rule.o Atribute.o FactsBase.o -o sbr
+sbr: main.o Config.o KnowledgeBase.o Rule.o Atribute.o FactsBase.o InferenceEngine.o
+	$(CC) $(CXXVER) -Wall main.o Config.o KnowledgeBase.o Rule.o Atribute.o FactsBase.o InferenceEngine.o -o sbr
 
 main.o: src/main.cc
 	$(CC) $(CXXVER) $(CFLAGS) src/main.cc
@@ -22,6 +22,9 @@ Atribute.o: src/Atribute.cc
 
 FactsBase.o: src/FactsBase.cc
 	$(CC) $(CXXVER) $(CFLAGS) src/FactsBase.cc
+
+InferenceEngine.o: src/InferenceEngine.cc
+	$(CC) $(CXXVER) $(CFLAGS) src/InferenceEngine.cc
 
 
 cleanall:

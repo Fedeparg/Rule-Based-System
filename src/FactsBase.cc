@@ -6,13 +6,12 @@
 using namespace std;
 
 list<Atribute> FactsBase::GetListFacts(){
-  list<Atribute> facts_copy(facts);
-  return facts_copy;
+  return facts;
 }
 
 void FactsBase::AddFact(Atribute fact)
 {
-  facts.push_back(fact);
+  facts.push_front(fact);
 }
 
 void FactsBase::ReadFacts()

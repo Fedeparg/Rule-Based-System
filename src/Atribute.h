@@ -12,9 +12,11 @@ class Atribute
   std::string GetAtribute();
   std::string GetOp();
   std::string GetValue();
+  std::string GetType();
   void SetAtribute(const std::string &word);
   void SetOp(const std::string &word);
   void SetValue(const std::string &word);
+  void SetType(const std::string &word);
   Atribute();
   ~Atribute();
 
@@ -24,6 +26,7 @@ class Atribute
     std::string atribute;
     std::string op;
     std::string value;
+    std::string type;
   };
 
   struc atribute;
