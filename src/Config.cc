@@ -45,7 +45,7 @@ void Config::ParseRulesPriority()
 {
   int num_rules = 0;
   config_file >> num_rules;
-  int *rules_priority = new int[num_rules];
+  rules_priority = new int[num_rules];
   int value = 0;
 
   for (int i = 0; i < num_rules; ++i)
@@ -151,4 +151,5 @@ Config::Config(ifstream &config_file) : config_file(config_file)
 Config::~Config()
 {
   delete[] rules_priority;
+  config_file.close();
 }

@@ -96,8 +96,8 @@ void KnowledgeBase::ReadKnowledgeBase()
   file_kb.close();
 }
 
-KnowledgeBase::KnowledgeBase(ifstream &file_kb, Config &conf_obj)
-    : file_kb(file_kb), conf(conf_obj)
+KnowledgeBase::KnowledgeBase(ifstream &file_kb, Config *conf_obj)
+    : file_kb(file_kb), conf(*conf_obj)
 {
   // Initialize the values
   SetNumRules(0);
@@ -108,4 +108,5 @@ KnowledgeBase::KnowledgeBase(ifstream &file_kb, Config &conf_obj)
 
 KnowledgeBase::~KnowledgeBase()
 {
+  file_kb.close();
 }

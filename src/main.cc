@@ -43,12 +43,11 @@ int main(int argc, char const *argv[])
   }
 
   Config *c = new Config(config_file);
-  KnowledgeBase *kb = new KnowledgeBase(file_kb, *c);
+  KnowledgeBase *kb = new KnowledgeBase(file_kb, c);
   FactsBase *fb = new FactsBase(file_facts);
 
   InferenceEngine::ForwardChaining(*kb, *c, *fb);
 
-  delete c;
   delete kb;
   delete fb;
   return 0;

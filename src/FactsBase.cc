@@ -50,5 +50,5 @@ FactsBase::FactsBase(std::ifstream &file_facts)
 
 FactsBase::~FactsBase()
 {
-  
+  file_facts.close(); 
 }
