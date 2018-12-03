@@ -26,17 +26,17 @@ void FactsBase::ReadFacts()
 
   for(int i = 0; i < num_facts; i++)
   {
-    Atribute *fact = new Atribute();
+    Atribute fact;
     string word("");
 
     file_facts >> word;
-    fact->SetAtribute(word);
+    fact.SetAtribute(word);
     file_facts >> word;
-    fact->SetOp(word);
+    fact.SetOp(word);
     file_facts >> word;
-    fact->SetValue(word);
+    fact.SetValue(word);
 
-    AddFact(*fact);
+    AddFact(fact);
     // Jump to next line
     getline(file_facts, line);
   }
@@ -50,4 +50,5 @@ FactsBase::FactsBase(std::ifstream &file_facts)
 
 FactsBase::~FactsBase()
 {
+  
 }

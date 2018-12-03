@@ -46,10 +46,10 @@ int main(int argc, char const *argv[])
   KnowledgeBase *kb = new KnowledgeBase(file_kb, *c);
   FactsBase *fb = new FactsBase(file_facts);
 
-  //InferenceEngine::Test(*kb, *c, *fb);
   InferenceEngine::ForwardChaining(*kb, *c, *fb);
 
-  // 'kb' contains a reference to c, so it will call his destructor
-  // delete kb;
+  delete c;
+  delete kb;
+  delete fb;
   return 0;
 }

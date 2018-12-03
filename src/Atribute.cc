@@ -46,7 +46,6 @@ void Atribute::SetType(const std::string &word)
 
 Atribute::Atribute()
 {
-  memset(&atribute, 0, sizeof(atribute));
 }
 
 Atribute::~Atribute()
