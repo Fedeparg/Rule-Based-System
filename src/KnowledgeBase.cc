@@ -60,16 +60,16 @@ void KnowledgeBase::ParseRules(const string &line)
     if (strcmp(tmp, "y") == 0)
       ++num_sub_rules;
 
-    Atribute *atr = new Atribute();
+    Atribute atr;
     s >> st1;
-    atr->SetAtribute(st1);
-    atr->SetType(conf.GetArgumentType(st1));
+    atr.SetAtribute(st1);
+    atr.SetType(conf.GetArgumentType(st1));
     s >> st1;
-    atr->SetOp(st1);
+    atr.SetOp(st1);
     s >> st1;
-    atr->SetValue(st1);
+    atr.SetValue(st1);
 
-    table[index] = *atr;
+    table[index] = atr;
     ++index;
   }
   Rule r;
