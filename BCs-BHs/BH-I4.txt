@@ -1,0 +1,4 @@
+3
+Precipitaciones = Fuertes
+Nivel = Alto
+Mes = Agosto

@@ -1,0 +1,4 @@
+3
+Precipitaciones = Fuertes
+Profundidad = 6
+Prediccion = Tormenta

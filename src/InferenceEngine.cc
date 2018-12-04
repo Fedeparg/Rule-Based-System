@@ -66,7 +66,15 @@ bool InferenceEngine::ForwardChaining(KnowledgeBase &kb, Config &c, FactsBase &f
   {
     return true;
   }
+  f1 << endl
+     << "No quedan reglas posibles que comparar con los hechos actuales. "
+        "No se ha podido llegar a una conclusion"
+     << endl;
 
+  f2 << endl
+     << "No quedan reglas posibles que comparar con los hechos actuales. "
+        "No se ha podido llegar a una conclusion"
+     << endl;
   return false;
 }
 
@@ -76,8 +84,8 @@ bool InferenceEngine::GoalFound(list<Atribute> &facts, string goal)
   {
     if (it->GetAtribute().compare(goal) == 0)
     {
-      f1 << "Solución: " << it->GetAtribute() << " " << it->GetOp() << " " << it->GetValue() << endl;
-      f2 << "La suma de las anteriores reglas me llevan a la conclusión de que la solución es: "
+      f1 << "Solucion: " << it->GetAtribute() << " " << it->GetOp() << " " << it->GetValue() << endl;
+      f2 << "La suma de las anteriores reglas me llevan a la conclusion de que la solucion es: "
          << it->GetAtribute() << " " << it->GetOp() << " " << it->GetValue() << endl;
       return true;
     }
@@ -87,7 +95,7 @@ bool InferenceEngine::GoalFound(list<Atribute> &facts, string goal)
 
 void InferenceEngine::SearchRules(list<Rule> &conflict, list<Rule> &rules, list<Atribute> &facts)
 {
-  f1 << "Analizando posibles reglas a aplicar con la configuración actual..." << endl;
+  f1 << "Analizando posibles reglas a aplicar con la configuracion actual..." << endl;
   int j = 1;
   for (list<Rule>::iterator it = rules.begin(); it != rules.end(); ++it)
   {
@@ -223,7 +231,7 @@ Atribute InferenceEngine::Resolve(list<Rule> &conflicto)
      << "' a la base de hechos." << endl
      << endl;
 
-  f2 << "Deduzco la conclusión de la siguiente regla con la base de hechos actual: "
+  f2 << "Deduzco la conclusion de la siguiente regla con la base de hechos actual: "
      << endl;
   for (int j = 0; j <= it->GetNumSubRules(); j++)
   {
@@ -253,7 +261,7 @@ void InferenceEngine::Test(KnowledgeBase &kb, Config &c, FactsBase &fb)
   // f1 << endl;
   // for (list<Rule>::iterator it = lista.begin(); it != lista.end(); ++it)
   // {
-  //   f1 << "Número de subreglas: " << it->GetNumSubRules() << endl;
+  //   f1 << "Numero de subreglas: " << it->GetNumSubRules() << endl;
   //   Atribute *atr = it->GetSubRules();
   //   for (int i = 0; i <= it->GetNumSubRules(); i++)
   //   {
