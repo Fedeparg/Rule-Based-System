@@ -5,16 +5,37 @@
 #include <string>
 #include <string.h>
 #include <stdlib.h>
+#include <fstream>
 
 #include "InferenceEngine.h"
 #include "Atribute.h"
 
 using namespace std;
 
+extern ofstream f1;
+extern ofstream f2;
+
 bool InferenceEngine::ForwardChaining(KnowledgeBase &kb, Config &c, FactsBase &fb)
 {
   // Get the list of facts
+  f1 << "-Dominio: " << kb.GetDomain() << endl;
+  f1 << "-Atributo objetivo: \"" << c.GetGoal() << "\"" << endl
+     << endl;
+
+  f2 << "-Dominio: " << kb.GetDomain() << endl;
+  f2 << "-Atributo objetivo: \"" << c.GetGoal() << "\"" << endl
+     << endl;
+
   list<Atribute> facts(fb.GetListFacts());
+
+  f1 << "La base de hechos inicial es la siguiente: " << endl;
+  for (list<Atribute>::iterator it = facts.begin(); it != facts.end(); ++it)
+  {
+    f1 << "- " << it->GetAtribute() << " "
+       << it->GetOp() << " " << it->GetValue() << endl;
+  }
+  f1 << endl;
+
   // Create and fill ConflictSet
   list<Rule> rules(kb.GetRules());
   list<Rule> conflict;
@@ -25,6 +46,13 @@ bool InferenceEngine::ForwardChaining(KnowledgeBase &kb, Config &c, FactsBase &f
   while (!GoalFound(facts, c.GetGoal()) && !conflict.empty())
   {
     facts.push_back(Resolve(conflict));
+    f1 << "La base de hechos queda actualizada con los siguientes datos:" << endl;
+    for (list<Atribute>::iterator it = facts.begin(); it != facts.end(); ++it)
+    {
+      f1 << "- " << it->GetAtribute() << " "
+         << it->GetOp() << " " << it->GetValue() << endl;
+    }
+    f1 << endl;
     if (!GoalFound(facts, c.GetGoal()))
       SearchRules(conflict, rules, facts);
 
@@ -48,7 +76,9 @@ bool InferenceEngine::GoalFound(list<Atribute> &facts, string goal)
   {
     if (it->GetAtribute().compare(goal) == 0)
     {
-      cout << "Solución: " << it->GetAtribute() << " " << it->GetOp() << " " << it->GetValue() << endl;
+      f1 << "Solución: " << it->GetAtribute() << " " << it->GetOp() << " " << it->GetValue() << endl;
+      f2 << "La suma de las anteriores reglas me llevan a la conclusión de que la solución es: "
+         << it->GetAtribute() << " " << it->GetOp() << " " << it->GetValue() << endl;
       return true;
     }
   }
@@ -57,6 +87,7 @@ bool InferenceEngine::GoalFound(list<Atribute> &facts, string goal)
 
 void InferenceEngine::SearchRules(list<Rule> &conflict, list<Rule> &rules, list<Atribute> &facts)
 {
+  f1 << "Analizando posibles reglas a aplicar con la configuración actual..." << endl;
   int j = 1;
   for (list<Rule>::iterator it = rules.begin(); it != rules.end(); ++it)
   {
@@ -155,13 +186,29 @@ bool InferenceEngine::OpToCode(Atribute &a1, Atribute &a2)
 
 Atribute InferenceEngine::Resolve(list<Rule> &conflicto)
 {
+  f1 << "Las conclusiones de las siguientes reglas pueden ser incluidas:" << endl;
   list<Rule>::iterator it;
   int priority = -1;
   for (list<Rule>::iterator i = conflicto.begin(); i != conflicto.end(); ++i)
   {
-    // cout << i->GetSubRules()[i->GetNumSubRules()].GetAtribute() << " "
-    //      << i->GetSubRules()[i->GetNumSubRules()].GetOp() << " "
-    //      << i->GetSubRules()[i->GetNumSubRules()].GetValue() << endl;
+
+    for (int j = 0; j <= i->GetNumSubRules(); j++)
+    {
+      if (j == 0)
+        f1 << "- ";
+      f1 << i->GetSubRules()[j].GetAtribute() << " "
+         << i->GetSubRules()[j].GetOp() << " "
+         << i->GetSubRules()[j].GetValue();
+      if (j < i->GetNumSubRules() - 1)
+      {
+        f1 << " Y ";
+      }
+      else if (j == i->GetNumSubRules() - 1)
+      {
+        f1 << " ENTONCES ";
+      }
+    }
+    f1 << endl;
     if (i->GetRulePriority() > priority)
     {
       priority = i->GetRulePriority();
@@ -169,35 +216,58 @@ Atribute InferenceEngine::Resolve(list<Rule> &conflicto)
     }
   }
   conflicto.erase(it);
-  // cout << "Añadimos conclusion: " << it->GetSubRules()[it->GetNumSubRules()].GetAtribute() << " "
-  //      << it->GetSubRules()[it->GetNumSubRules()].GetOp() << " "
-  //      << it->GetSubRules()[it->GetNumSubRules()].GetValue() << endl;
+  f1 << "Tras comparar prioridades, añadimos la conclusion: '"
+     << it->GetSubRules()[it->GetNumSubRules()].GetAtribute() << " "
+     << it->GetSubRules()[it->GetNumSubRules()].GetOp() << " "
+     << it->GetSubRules()[it->GetNumSubRules()].GetValue()
+     << "' a la base de hechos." << endl
+     << endl;
+
+  f2 << "Deduzco la conclusión de la siguiente regla con la base de hechos actual: "
+     << endl;
+  for (int j = 0; j <= it->GetNumSubRules(); j++)
+  {
+    if (j == 0)
+      f2 << "- ";
+    f2 << it->GetSubRules()[j].GetAtribute() << " "
+       << it->GetSubRules()[j].GetOp() << " "
+       << it->GetSubRules()[j].GetValue();
+    if (j < it->GetNumSubRules() - 1)
+    {
+      f2 << " Y ";
+    }
+    else if (j == it->GetNumSubRules() - 1)
+    {
+      f2 << " ENTONCES ";
+    }
+  }
+  f2 << endl;
 
   return it->GetSubRules()[it->GetNumSubRules()];
 }
 void InferenceEngine::Test(KnowledgeBase &kb, Config &c, FactsBase &fb)
 {
-  // cout << c.GetArgumentType("NSemillas") << endl;
-  // cout << kb.GetDomain() << endl;
+  // f1 << c.GetArgumentType("NSemillas") << endl;
+  // f1 << kb.GetDomain() << endl;
   // list<Rule> lista(kb.GetRules());
-  // cout << endl;
+  // f1 << endl;
   // for (list<Rule>::iterator it = lista.begin(); it != lista.end(); ++it)
   // {
-  //   cout << "Número de subreglas: " << it->GetNumSubRules() << endl;
+  //   f1 << "Número de subreglas: " << it->GetNumSubRules() << endl;
   //   Atribute *atr = it->GetSubRules();
   //   for (int i = 0; i <= it->GetNumSubRules(); i++)
   //   {
-  //     cout << atr[i].GetAtribute() << " " << atr[i].GetOp() << " "
+  //     f1 << atr[i].GetAtribute() << " " << atr[i].GetOp() << " "
   //          << atr[i].GetValue() << endl;
   //   }
-  //   cout << endl;
+  //   f1 << endl;
   // }
-  // cout << lista.size() << endl;
+  // f1 << lista.size() << endl;
 
   // list<Atribute> lista1 = fb.GetListFacts();
   // for (list<Atribute>::iterator it = lista1.begin(); it != lista1.end(); ++it)
   // {
-  //   cout << it->GetAtribute() << " " << it->GetOp() << " "
+  //   f1 << it->GetAtribute() << " " << it->GetOp() << " "
   //        << it->GetValue() << endl;
   // }
 }
