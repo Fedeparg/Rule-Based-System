@@ -14,8 +14,8 @@
 
 using namespace std;
 
-fstream f1;
-fstream f2;
+ofstream f1;
+ofstream f2;
 
 bool CheckFile(ifstream &file, const char *file_name)
 {
@@ -34,11 +34,11 @@ int main(int argc, char const *argv[])
   ifstream config_file(argv[2]);
   ifstream file_facts(argv[3]);
   string st1(argv[3]);
-  st1 = st1.substr(10, st1.size());
-  string concat1 = "Salida1" + st1;
-  string concat2 = "Salida2" + st1;
-  f1.open(concat1, ios::out);
-  f2.open(concat2, ios::out);
+  st1 = st1.substr(st1.size()-6, st1.size());
+  string concat1 = "Salida1-" + st1;
+  string concat2 = "Salida2-" + st1;
+  f1.open(concat1);
+  f2.open(concat2);
 
   // Checks if the files can be opened
   for (int i = 1; i <= 3; i++)
