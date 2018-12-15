@@ -18,8 +18,8 @@ extern ofstream f2;
 bool InferenceEngine::ForwardChaining(KnowledgeBase &kb, Config &c, FactsBase &fb)
 {
   // Get the list of facts
-  f1 << "-Dominio: " << kb.GetDomain() << endl;
-  f1 << "-Atributo objetivo: \"" << c.GetGoal() << "\"" << endl
+  f1 << "-Dominio: " << kb.GetDomain() << endl
+     << "-Atributo objetivo: \"" << c.GetGoal() << "\"" << endl
      << endl;
 
   f2 << "-Dominio: " << kb.GetDomain() << endl;
@@ -46,13 +46,16 @@ bool InferenceEngine::ForwardChaining(KnowledgeBase &kb, Config &c, FactsBase &f
   while (!GoalFound(facts, c.GetGoal()) && !conflict.empty())
   {
     facts.push_back(Resolve(conflict));
+
     f1 << "La base de hechos queda actualizada con los siguientes datos:" << endl;
+
     for (list<Atribute>::iterator it = facts.begin(); it != facts.end(); ++it)
     {
       f1 << "- " << it->GetAtribute() << " "
          << it->GetOp() << " " << it->GetValue() << endl;
     }
     f1 << endl;
+
     if (!GoalFound(facts, c.GetGoal()))
       SearchRules(conflict, rules, facts);
 
@@ -253,29 +256,30 @@ Atribute InferenceEngine::Resolve(list<Rule> &conflicto)
 
   return it->GetSubRules()[it->GetNumSubRules()];
 }
-void InferenceEngine::Test(KnowledgeBase &kb, Config &c, FactsBase &fb)
-{
-  // f1 << c.GetArgumentType("NSemillas") << endl;
-  // f1 << kb.GetDomain() << endl;
-  // list<Rule> lista(kb.GetRules());
-  // f1 << endl;
-  // for (list<Rule>::iterator it = lista.begin(); it != lista.end(); ++it)
-  // {
-  //   f1 << "Numero de subreglas: " << it->GetNumSubRules() << endl;
-  //   Atribute *atr = it->GetSubRules();
-  //   for (int i = 0; i <= it->GetNumSubRules(); i++)
-  //   {
-  //     f1 << atr[i].GetAtribute() << " " << atr[i].GetOp() << " "
-  //          << atr[i].GetValue() << endl;
-  //   }
-  //   f1 << endl;
-  // }
-  // f1 << lista.size() << endl;
 
-  // list<Atribute> lista1 = fb.GetListFacts();
-  // for (list<Atribute>::iterator it = lista1.begin(); it != lista1.end(); ++it)
-  // {
-  //   f1 << it->GetAtribute() << " " << it->GetOp() << " "
-  //        << it->GetValue() << endl;
-  // }
-}
+// void InferenceEngine::Test(KnowledgeBase &kb, Config &c, FactsBase &fb)
+// {
+//   f1 << c.GetArgumentType("NSemillas") << endl;
+//   f1 << kb.GetDomain() << endl;
+//   list<Rule> lista(kb.GetRules());
+//   f1 << endl;
+//   for (list<Rule>::iterator it = lista.begin(); it != lista.end(); ++it)
+//   {
+//     f1 << "Numero de subreglas: " << it->GetNumSubRules() << endl;
+//     Atribute *atr = it->GetSubRules();
+//     for (int i = 0; i <= it->GetNumSubRules(); i++)
+//     {
+//       f1 << atr[i].GetAtribute() << " " << atr[i].GetOp() << " "
+//            << atr[i].GetValue() << endl;
+//     }
+//     f1 << endl;
+//   }
+//   f1 << lista.size() << endl;
+
+//   list<Atribute> lista1 = fb.GetListFacts();
+//   for (list<Atribute>::iterator it = lista1.begin(); it != lista1.end(); ++it)
+//   {
+//     f1 << it->GetAtribute() << " " << it->GetOp() << " "
+//          << it->GetValue() << endl;
+//   }
+// }

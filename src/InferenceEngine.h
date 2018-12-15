@@ -16,7 +16,7 @@ namespace InferenceEngine {
   bool CompareAtributes(Atribute &a1, Atribute &a2);
   bool OpToCode(Atribute &a1, Atribute &a2);
   Atribute Resolve(std::list<Rule> &conflict);
-  void Test(KnowledgeBase &kb, Config &conf, FactsBase &facts);
+  // void Test(KnowledgeBase &kb, Config &conf, FactsBase &facts);
 }
 
 #endif
