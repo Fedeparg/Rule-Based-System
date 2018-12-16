@@ -17,10 +17,13 @@ class Rule
   int GetNumSubRules();
   void SetRulePriority(int new_priority);
   int GetRulePriority();
+  void SetRuleNumber(int n);
+  int GetRuleNumber();
   Rule();
   ~Rule();
 
  private:
+  int rule_number;
   int num_sub_rules;
   int rule_priority;
   Atribute *sub_rules;

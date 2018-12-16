@@ -24,6 +24,16 @@ string Atribute::GetType()
   return atribute.type;
 }
 
+void Atribute::SetRulesApplied(list<int> rules)
+{
+  rules_applied = rules;
+}
+
+list<int> Atribute::GetRulesApplied()
+{
+  return rules_applied;
+}
+
 void Atribute::SetAtribute(const std::string &word)
 {
   atribute.atribute = word;

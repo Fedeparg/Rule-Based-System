@@ -45,7 +45,7 @@ bool InferenceEngine::ForwardChaining(KnowledgeBase &kb, Config &c, FactsBase &f
 
   while (!GoalFound(facts, c.GetGoal()) && !conflict.empty())
   {
-    facts.push_back(Resolve(conflict));
+    facts.push_front(Resolve(conflict, facts));
 
     f1 << "La base de hechos queda actualizada con los siguientes datos:" << endl;
 
@@ -61,6 +61,7 @@ bool InferenceEngine::ForwardChaining(KnowledgeBase &kb, Config &c, FactsBase &f
 
     else
     {
+      WriteConclusion(facts, kb.GetRules());
       return true;
     }
   }
@@ -88,8 +89,6 @@ bool InferenceEngine::GoalFound(list<Atribute> &facts, string goal)
     if (it->GetAtribute().compare(goal) == 0)
     {
       f1 << "Solucion: " << it->GetAtribute() << " " << it->GetOp() << " " << it->GetValue() << endl;
-      f2 << "La suma de las anteriores reglas me llevan a la conclusion de que la solucion es: "
-         << it->GetAtribute() << " " << it->GetOp() << " " << it->GetValue() << endl;
       return true;
     }
   }
@@ -195,10 +194,20 @@ bool InferenceEngine::OpToCode(Atribute &a1, Atribute &a2)
   return false;
 }
 
-Atribute InferenceEngine::Resolve(list<Rule> &conflicto)
+bool InferenceEngine::CompareJustAtributes(Atribute &a1, Atribute &a2)
+{
+  if (a1.GetAtribute().compare(a2.GetAtribute()) == 0)
+  {
+    return true;
+  }
+  return false;
+}
+
+Atribute InferenceEngine::Resolve(list<Rule> &conflicto, list<Atribute> &facts)
 {
   f1 << "Las conclusiones de las siguientes reglas pueden ser incluidas:" << endl;
   list<Rule>::iterator it;
+  Rule r;
   int priority = -1;
   for (list<Rule>::iterator i = conflicto.begin(); i != conflicto.end(); ++i)
   {
@@ -227,34 +236,70 @@ Atribute InferenceEngine::Resolve(list<Rule> &conflicto)
     }
   }
   conflicto.erase(it);
+  r = *it;
+
+  /* EN OBRAS */
+  list<int> list_this;
+  for (int i = 0; i < r.GetNumSubRules(); i++)
+  {
+    list<int> temp;
+    for (list<Atribute>::iterator fact = facts.begin(); fact != facts.end(); ++fact)
+    {
+      if (CompareJustAtributes(r.GetSubRules()[i], *fact))
+      {
+        temp = fact->GetRulesApplied();
+        break;
+      }
+    }
+    for (list<int>::iterator iter = temp.begin(); iter != temp.end(); ++iter)
+    {
+      list_this.push_back(*iter);
+    }
+  }
+  list_this.push_back(r.GetRuleNumber());
+  r.GetSubRules()[r.GetNumSubRules()].SetRulesApplied(list_this);
+
+  /* EN OBRAS */
+
   f1 << "Tras comparar prioridades, añadimos la conclusion: '"
-     << it->GetSubRules()[it->GetNumSubRules()].GetAtribute() << " "
-     << it->GetSubRules()[it->GetNumSubRules()].GetOp() << " "
-     << it->GetSubRules()[it->GetNumSubRules()].GetValue()
+     << r.GetSubRules()[r.GetNumSubRules()].GetAtribute() << " "
+     << r.GetSubRules()[r.GetNumSubRules()].GetOp() << " "
+     << r.GetSubRules()[r.GetNumSubRules()].GetValue()
      << "' a la base de hechos." << endl
      << endl;
 
-  f2 << "Deduzco la conclusion de la siguiente regla con la base de hechos actual: "
-     << endl;
-  for (int j = 0; j <= it->GetNumSubRules(); j++)
-  {
-    if (j == 0)
-      f2 << "- ";
-    f2 << it->GetSubRules()[j].GetAtribute() << " "
-       << it->GetSubRules()[j].GetOp() << " "
-       << it->GetSubRules()[j].GetValue();
-    if (j < it->GetNumSubRules() - 1)
-    {
-      f2 << " Y ";
-    }
-    else if (j == it->GetNumSubRules() - 1)
-    {
-      f2 << " ENTONCES ";
-    }
-  }
-  f2 << endl;
+  return r.GetSubRules()[r.GetNumSubRules()];
+}
 
-  return it->GetSubRules()[it->GetNumSubRules()];
+void InferenceEngine::WriteConclusion(list<Atribute> facts, list<Rule> rules)
+{
+  Atribute final_atribute = facts.front();
+  list<int> rules_final = final_atribute.GetRulesApplied();
+
+  f2 << "He seguido el siguiente razonamiento para alcanzar la conclusión. La última regla se corresponde con la que devuelve la conclusión:" << endl;
+
+  for (list<int>::iterator i = rules_final.begin(); i != rules_final.end(); ++i)
+  {
+    list<Rule>::iterator it = rules.begin();
+    advance(it, *i - 1);
+    for (int j = 0; j <= it->GetNumSubRules(); j++)
+    {
+      if (j == 0)
+        f2 << "- ";
+      f2 << it->GetSubRules()[j].GetAtribute() << " "
+         << it->GetSubRules()[j].GetOp() << " "
+         << it->GetSubRules()[j].GetValue();
+      if (j < it->GetNumSubRules() - 1)
+      {
+        f2 << " Y ";
+      }
+      else if (j == it->GetNumSubRules() - 1)
+      {
+        f2 << " ENTONCES ";
+      }
+    }
+    f2 << endl;
+  }
 }
 
 // void InferenceEngine::Test(KnowledgeBase &kb, Config &c, FactsBase &fb)

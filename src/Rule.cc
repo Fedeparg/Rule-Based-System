@@ -1,4 +1,5 @@
 #include "Rule.h"
+#include <iostream>
 
 using namespace std;
 
@@ -30,6 +31,16 @@ Atribute *Rule::GetSubRules()
 void Rule::SetNumSubRules(int new_num_sub_rules)
 {
   num_sub_rules = new_num_sub_rules;
+}
+
+void Rule::SetRuleNumber(int n)
+{
+  rule_number = n;
+}
+
+int Rule::GetRuleNumber()
+{
+  return rule_number;
 }
 
 Rule::Rule()

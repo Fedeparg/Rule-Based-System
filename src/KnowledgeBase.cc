@@ -73,6 +73,7 @@ void KnowledgeBase::ParseRules(const string &line)
     ++index;
   }
   Rule r;
+  r.SetRuleNumber(parsed_rules+1);
   r.SetRulePriority(conf.GetRulePriority(parsed_rules));
   r.SetSubRules(*table);
   r.SetNumSubRules(num_sub_rules);
@@ -84,7 +85,6 @@ void KnowledgeBase::ReadKnowledgeBase()
 {
   getline(file_kb, domain); // Store the domain
   file_kb >> num_rules;     // Store the number of rules
-
   string line("");
   getline(file_kb, line); // Move pointer to next line
   for (int i = 0; i < num_rules; ++i)

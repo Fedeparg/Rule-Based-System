@@ -15,7 +15,10 @@ namespace InferenceEngine {
   void SearchRules(std::list<Rule> &conflict, std::list<Rule> &rules, std::list<Atribute> &facts);
   bool CompareAtributes(Atribute &a1, Atribute &a2);
   bool OpToCode(Atribute &a1, Atribute &a2);
-  Atribute Resolve(std::list<Rule> &conflict);
+  Atribute Resolve(std::list<Rule> &conflict, std::list<Atribute> &facts);
+  bool CompareJustAtributes(Atribute &a1, Atribute &a2);
+  void WriteConclusion(std::list<Atribute> facts, std::list<Rule> rules);
+
   // void Test(KnowledgeBase &kb, Config &conf, FactsBase &facts);
 }
 
