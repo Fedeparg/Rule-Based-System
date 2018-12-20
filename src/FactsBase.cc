@@ -6,11 +6,11 @@
 
 using namespace std;
 
-list<Atribute> FactsBase::GetListFacts(){
+list<Attribute> FactsBase::GetListFacts(){
   return facts;
 }
 
-void FactsBase::AddFact(Atribute fact)
+void FactsBase::AddFact(Attribute fact)
 {
   facts.push_front(fact);
 }
@@ -27,11 +27,11 @@ void FactsBase::ReadFacts()
 
   for(int i = 0; i < num_facts; i++)
   {
-    Atribute fact;
+    Attribute fact;
     string word("");
 
     file_facts >> word;
-    fact.SetAtribute(word);
+    fact.SetAttribute(word);
     file_facts >> word;
     fact.SetOp(word);
     file_facts >> word;

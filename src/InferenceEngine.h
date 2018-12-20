@@ -11,15 +11,13 @@
 
 namespace InferenceEngine {
   bool ForwardChaining(KnowledgeBase &kb, Config &conf, FactsBase &facts);
-  bool GoalFound(std::list<Atribute> &facts, std::string goal);
-  void SearchRules(std::list<Rule> &conflict, std::list<Rule> &rules, std::list<Atribute> &facts);
-  bool CompareAtributes(Atribute &a1, Atribute &a2);
-  bool OpToCode(Atribute &a1, Atribute &a2);
-  Atribute Resolve(std::list<Rule> &conflict, std::list<Atribute> &facts);
-  bool CompareJustAtributes(Atribute &a1, Atribute &a2);
-  void WriteConclusion(std::list<Atribute> facts, std::list<Rule> rules);
-
-  // void Test(KnowledgeBase &kb, Config &conf, FactsBase &facts);
+  bool GoalFound(std::list<Attribute> &facts, std::string goal);
+  void SearchRules(std::list<Rule> &conflict, std::list<Rule> &rules, std::list<Attribute> &facts);
+  bool CompareAttributes(Attribute &a1, Attribute &a2);
+  bool OpToCode(Attribute &a1, Attribute &a2);
+  Attribute Resolve(std::list<Rule> &conflict, std::list<Attribute> &facts);
+  bool CompareJustAttributes(Attribute &a1, Attribute &a2);
+  void WriteConclusion(std::list<Attribute> facts, std::list<Rule> rules);
 }
 
 #endif

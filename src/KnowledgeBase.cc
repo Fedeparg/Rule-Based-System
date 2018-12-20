@@ -8,7 +8,7 @@
 #include "Rule.h"
 #include "Config.h"
 #include "KnowledgeBase.h"
-#include "Atribute.h"
+#include "Attribute.h"
 
 using namespace std;
 
@@ -47,7 +47,7 @@ void KnowledgeBase::SetRules(list<Rule> new_rules)
 void KnowledgeBase::ParseRules(const string &line)
 {
   int num_sub_rules = 1;
-  Atribute *table = new Atribute[10];
+  Attribute *table = new Attribute[10];
   int index = 0;
   string st1("");
   istringstream s(line);
@@ -60,9 +60,9 @@ void KnowledgeBase::ParseRules(const string &line)
     if (strcmp(tmp, "y") == 0)
       ++num_sub_rules;
 
-    Atribute atr;
+    Attribute atr;
     s >> st1;
-    atr.SetAtribute(st1);
+    atr.SetAttribute(st1);
     atr.SetType(conf.GetArgumentType(st1));
     s >> st1;
     atr.SetOp(st1);

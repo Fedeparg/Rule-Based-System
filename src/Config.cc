@@ -57,27 +57,27 @@ void Config::ParseRulesPriority()
   SetRulesPriority(rules_priority);
 }
 
-void Config::ParseAtributes()
+void Config::ParseAttributes()
 {
-  string atribute, type;
-  int num_atributes;
-  config_file >> num_atributes;
+  string attribute, type;
+  int num_attributes;
+  config_file >> num_attributes;
 
-  for (int i = 0; i < num_atributes; ++i)
+  for (int i = 0; i < num_attributes; ++i)
   {
-    config_file >> atribute;
+    config_file >> attribute;
     config_file >> type;
-    map_arguments.insert(pair<string, string>(atribute, type));
+    map_arguments.insert(pair<string, string>(attribute, type));
 
     int tmp_size = type.size() + 1;
     char tmp[tmp_size];
     strcpy(tmp, type.c_str());
     if (strcmp(tmp, "NU") != 0)
     {
-      config_file >> atribute;
+      config_file >> attribute;
     }
   }
-  getline(config_file, atribute);
+  getline(config_file, attribute);
 }
 
 int Config::keywords(const string &keyword)
@@ -120,7 +120,7 @@ void Config::ReadConfigFile()
     switch (keyword)
     {
     case 1:
-      ParseAtributes();
+      ParseAttributes();
       break;
 
     case 2:

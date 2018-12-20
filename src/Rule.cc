@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void Rule::SetSubRules(Atribute &new_sub_rules)
+void Rule::SetSubRules(Attribute &new_sub_rules)
 {
   sub_rules = &new_sub_rules;
 }
@@ -23,7 +23,7 @@ void Rule::SetRulePriority(int new_rule_priority)
   rule_priority = new_rule_priority;
 }
 
-Atribute *Rule::GetSubRules()
+Attribute *Rule::GetSubRules()
 {
   return sub_rules;
 }

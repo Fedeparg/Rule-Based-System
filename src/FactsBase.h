@@ -3,21 +3,21 @@
 
 #include <list>
 
-#include "Atribute.h"
+#include "Attribute.h"
 
 // Represents the Facts that the Inference Engine've discovered so far.
 // First it reads the "Base Facts" stored in a file. They are saved as
-// 'Atributes' to make comparaisons for the Inference Engine easier 
+// 'Attributes' to make comparaisons for the Inference Engine easier 
 class FactsBase {
  public:
   // Returns a copy of the current list of facts
-  std::list<Atribute> GetListFacts();
-  void AddFact(Atribute fact);
+  std::list<Attribute> GetListFacts();
+  void AddFact(Attribute fact);
   FactsBase(std::ifstream &file_facts);
   ~FactsBase();
  private:
   std::ifstream &file_facts;
-  std::list<Atribute> facts;
+  std::list<Attribute> facts;
   void ReadFacts();
 
 };

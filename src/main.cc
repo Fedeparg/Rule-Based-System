@@ -9,7 +9,7 @@
 #include "KnowledgeBase.h"
 #include "Rule.h"
 #include "FactsBase.h"
-#include "Atribute.h"
+#include "Attribute.h"
 #include "InferenceEngine.h"
 
 using namespace std;

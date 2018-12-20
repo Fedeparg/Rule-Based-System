@@ -8,16 +8,17 @@
 #include <fstream>
 
 #include "InferenceEngine.h"
-#include "Atribute.h"
+#include "Attribute.h"
 
 using namespace std;
 
 extern ofstream f1;
 extern ofstream f2;
 
+// Main algorithm for the program
 bool InferenceEngine::ForwardChaining(KnowledgeBase &kb, Config &c, FactsBase &fb)
 {
-  // Get the list of facts
+  // Put the requested things on the files
   f1 << "-Dominio: " << kb.GetDomain() << endl
      << "-Atributo objetivo: \"" << c.GetGoal() << "\"" << endl
      << endl;
@@ -26,50 +27,58 @@ bool InferenceEngine::ForwardChaining(KnowledgeBase &kb, Config &c, FactsBase &f
   f2 << "-Atributo objetivo: \"" << c.GetGoal() << "\"" << endl
      << endl;
 
-  list<Atribute> facts(fb.GetListFacts());
+  // Gets the list of facts
+  list<Attribute> facts(fb.GetListFacts());
 
+  // Shows the starting facts base
   f1 << "La base de hechos inicial es la siguiente: " << endl;
-  for (list<Atribute>::iterator it = facts.begin(); it != facts.end(); ++it)
+  for (list<Attribute>::iterator it = facts.begin(); it != facts.end(); ++it)
   {
-    f1 << "- " << it->GetAtribute() << " "
+    f1 << "- " << it->GetAttribute() << " "
        << it->GetOp() << " " << it->GetValue() << endl;
   }
   f1 << endl;
 
-  // Create and fill ConflictSet
+  // Creates and fill ConflictSet
   list<Rule> rules(kb.GetRules());
   list<Rule> conflict;
 
-  // Search for rules
+  // Search for rules to fill conflict set (represented by a list)
   SearchRules(conflict, rules, facts);
 
+  // Start to apply rules
   while (!GoalFound(facts, c.GetGoal()) && !conflict.empty())
   {
+    // We resolve the conflict set and adds it as a new fact
     facts.push_front(Resolve(conflict, facts));
 
     f1 << "La base de hechos queda actualizada con los siguientes datos:" << endl;
 
-    for (list<Atribute>::iterator it = facts.begin(); it != facts.end(); ++it)
+    // Shows the update in the facts base
+    for (list<Attribute>::iterator it = facts.begin(); it != facts.end(); ++it)
     {
-      f1 << "- " << it->GetAtribute() << " "
+      f1 << "- " << it->GetAttribute() << " "
          << it->GetOp() << " " << it->GetValue() << endl;
     }
     f1 << endl;
 
+    // If the goal is still not found, search for rules again and repeat
     if (!GoalFound(facts, c.GetGoal()))
+    {
       SearchRules(conflict, rules, facts);
-
+    }
+    // In other case, we re-build the conclusion, showing the steps followed
     else
     {
       WriteConclusion(facts, kb.GetRules());
+      // Returns true because the goal was found
       return true;
     }
   }
 
-  if (GoalFound(facts, c.GetGoal()))
-  {
-    return true;
-  }
+  // If we got here, it's because we could not find a solution, so we should
+  // inform the user in BOTH files (just in case the user thinks the program
+  // is broken)
   f1 << endl
      << "No quedan reglas posibles que comparar con los hechos actuales. "
         "No se ha podido llegar a una conclusion"
@@ -79,38 +88,41 @@ bool InferenceEngine::ForwardChaining(KnowledgeBase &kb, Config &c, FactsBase &f
      << "No quedan reglas posibles que comparar con los hechos actuales. "
         "No se ha podido llegar a una conclusion"
      << endl;
+  // Returns false because no goals were found
   return false;
 }
 
-bool InferenceEngine::GoalFound(list<Atribute> &facts, string goal)
+// Checks if the goal has been found
+bool InferenceEngine::GoalFound(list<Attribute> &facts, string goal)
 {
-  for (list<Atribute>::iterator it = facts.begin(); it != facts.end(); ++it)
+  for (list<Attribute>::iterator it = facts.begin(); it != facts.end(); ++it)
   {
-    if (it->GetAtribute().compare(goal) == 0)
+    if (it->GetAttribute().compare(goal) == 0)
     {
-      f1 << "Solucion: " << it->GetAtribute() << " " << it->GetOp() << " " << it->GetValue() << endl;
+      f1 << "Solucion: " << it->GetAttribute() << " " << it->GetOp() << " " << it->GetValue() << endl;
       return true;
     }
   }
   return false;
 }
 
-void InferenceEngine::SearchRules(list<Rule> &conflict, list<Rule> &rules, list<Atribute> &facts)
+// Search for rules that can be applied with the current facts base
+void InferenceEngine::SearchRules(list<Rule> &conflict, list<Rule> &rules, list<Attribute> &facts)
 {
   f1 << "Analizando posibles reglas a aplicar con la configuracion actual..." << endl;
   int j = 1;
   for (list<Rule>::iterator it = rules.begin(); it != rules.end(); ++it)
   {
-    Atribute *subrules = it->GetSubRules();
+    Attribute *subrules = it->GetSubRules();
 
     bool flag = true;
     for (int i = 0; i < it->GetNumSubRules(); ++i)
     {
       bool flag_condition = false;
 
-      for (list<Atribute>::iterator fact = facts.begin(); fact != facts.end(); ++fact)
+      for (list<Attribute>::iterator fact = facts.begin(); fact != facts.end(); ++fact)
       {
-        if (CompareAtributes(subrules[i], *fact))
+        if (CompareAttributes(subrules[i], *fact))
         {
           flag_condition = true;
         }
@@ -132,9 +144,11 @@ void InferenceEngine::SearchRules(list<Rule> &conflict, list<Rule> &rules, list<
   }
 }
 
-bool InferenceEngine::CompareAtributes(Atribute &a1, Atribute &a2)
+// Compare 2 attributes to check if the first one meets the requirements of
+// the second
+bool InferenceEngine::CompareAttributes(Attribute &a1, Attribute &a2)
 {
-  if (a1.GetAtribute().compare(a2.GetAtribute()) == 0)
+  if (CompareJustAttributes(a1, a2))
   {
     if (a1.GetType().compare("NU") == 0)
     {
@@ -151,7 +165,8 @@ bool InferenceEngine::CompareAtributes(Atribute &a1, Atribute &a2)
   return false;
 }
 
-bool InferenceEngine::OpToCode(Atribute &a1, Atribute &a2)
+// Turns an operation into code. Used for numeric attributes
+bool InferenceEngine::OpToCode(Attribute &a1, Attribute &a2)
 {
   char array1[a1.GetValue().size()];
   int v1 = atoi(strcpy(array1, a1.GetValue().c_str()));
@@ -194,16 +209,20 @@ bool InferenceEngine::OpToCode(Atribute &a1, Atribute &a2)
   return false;
 }
 
-bool InferenceEngine::CompareJustAtributes(Atribute &a1, Atribute &a2)
+// Function to compare only the attributes. Returns true if they refer to the
+// same attribute (as text). False otherwise
+bool InferenceEngine::CompareJustAttributes(Attribute &a1, Attribute &a2)
 {
-  if (a1.GetAtribute().compare(a2.GetAtribute()) == 0)
+  if (a1.GetAttribute().compare(a2.GetAttribute()) == 0)
   {
     return true;
   }
   return false;
 }
 
-Atribute InferenceEngine::Resolve(list<Rule> &conflicto, list<Atribute> &facts)
+// With the rules in conflict, we select which rule to be applied, based on
+// priority and order of appearence
+Attribute InferenceEngine::Resolve(list<Rule> &conflicto, list<Attribute> &facts)
 {
   f1 << "Las conclusiones de las siguientes reglas pueden ser incluidas:" << endl;
   list<Rule>::iterator it;
@@ -216,7 +235,7 @@ Atribute InferenceEngine::Resolve(list<Rule> &conflicto, list<Atribute> &facts)
     {
       if (j == 0)
         f1 << "- ";
-      f1 << i->GetSubRules()[j].GetAtribute() << " "
+      f1 << i->GetSubRules()[j].GetAttribute() << " "
          << i->GetSubRules()[j].GetOp() << " "
          << i->GetSubRules()[j].GetValue();
       if (j < i->GetNumSubRules() - 1)
@@ -238,14 +257,14 @@ Atribute InferenceEngine::Resolve(list<Rule> &conflicto, list<Atribute> &facts)
   conflicto.erase(it);
   r = *it;
 
-  /* EN OBRAS */
+  // Adding the rules applied to the new attribute used as fact
   list<int> list_this;
   for (int i = 0; i < r.GetNumSubRules(); i++)
   {
     list<int> temp;
-    for (list<Atribute>::iterator fact = facts.begin(); fact != facts.end(); ++fact)
+    for (list<Attribute>::iterator fact = facts.begin(); fact != facts.end(); ++fact)
     {
-      if (CompareJustAtributes(r.GetSubRules()[i], *fact))
+      if (CompareJustAttributes(r.GetSubRules()[i], *fact))
       {
         temp = fact->GetRulesApplied();
         break;
@@ -259,10 +278,8 @@ Atribute InferenceEngine::Resolve(list<Rule> &conflicto, list<Atribute> &facts)
   list_this.push_back(r.GetRuleNumber());
   r.GetSubRules()[r.GetNumSubRules()].SetRulesApplied(list_this);
 
-  /* EN OBRAS */
-
   f1 << "Tras comparar prioridades, añadimos la conclusion: '"
-     << r.GetSubRules()[r.GetNumSubRules()].GetAtribute() << " "
+     << r.GetSubRules()[r.GetNumSubRules()].GetAttribute() << " "
      << r.GetSubRules()[r.GetNumSubRules()].GetOp() << " "
      << r.GetSubRules()[r.GetNumSubRules()].GetValue()
      << "' a la base de hechos." << endl
@@ -271,12 +288,15 @@ Atribute InferenceEngine::Resolve(list<Rule> &conflicto, list<Atribute> &facts)
   return r.GetSubRules()[r.GetNumSubRules()];
 }
 
-void InferenceEngine::WriteConclusion(list<Atribute> facts, list<Rule> rules)
+// Exports to file 2 the conclusion from the begining, only including rules
+// that lead us to the final goal
+void InferenceEngine::WriteConclusion(list<Attribute> facts, list<Rule> rules)
 {
-  Atribute final_atribute = facts.front();
-  list<int> rules_final = final_atribute.GetRulesApplied();
+  Attribute final_attribute = facts.front();
+  list<int> rules_final = final_attribute.GetRulesApplied();
 
-  f2 << "He seguido el siguiente razonamiento para alcanzar la conclusión. La última regla se corresponde con la que devuelve la conclusión:" << endl;
+  f2 << "He seguido el siguiente razonamiento para alcanzar la conclusion. La "
+     << "ultima regla se corresponde con la que devuelve la conclusion:" << endl;
 
   for (list<int>::iterator i = rules_final.begin(); i != rules_final.end(); ++i)
   {
@@ -286,7 +306,7 @@ void InferenceEngine::WriteConclusion(list<Atribute> facts, list<Rule> rules)
     {
       if (j == 0)
         f2 << "- ";
-      f2 << it->GetSubRules()[j].GetAtribute() << " "
+      f2 << it->GetSubRules()[j].GetAttribute() << " "
          << it->GetSubRules()[j].GetOp() << " "
          << it->GetSubRules()[j].GetValue();
       if (j < it->GetNumSubRules() - 1)
@@ -301,30 +321,3 @@ void InferenceEngine::WriteConclusion(list<Atribute> facts, list<Rule> rules)
     f2 << endl;
   }
 }
-
-// void InferenceEngine::Test(KnowledgeBase &kb, Config &c, FactsBase &fb)
-// {
-//   f1 << c.GetArgumentType("NSemillas") << endl;
-//   f1 << kb.GetDomain() << endl;
-//   list<Rule> lista(kb.GetRules());
-//   f1 << endl;
-//   for (list<Rule>::iterator it = lista.begin(); it != lista.end(); ++it)
-//   {
-//     f1 << "Numero de subreglas: " << it->GetNumSubRules() << endl;
-//     Atribute *atr = it->GetSubRules();
-//     for (int i = 0; i <= it->GetNumSubRules(); i++)
-//     {
-//       f1 << atr[i].GetAtribute() << " " << atr[i].GetOp() << " "
-//            << atr[i].GetValue() << endl;
-//     }
-//     f1 << endl;
-//   }
-//   f1 << lista.size() << endl;
-
-//   list<Atribute> lista1 = fb.GetListFacts();
-//   for (list<Atribute>::iterator it = lista1.begin(); it != lista1.end(); ++it)
-//   {
-//     f1 << it->GetAtribute() << " " << it->GetOp() << " "
-//          << it->GetValue() << endl;
-//   }
-// }

@@ -23,7 +23,7 @@ class Config
   std::string goal;
   std::map<std::string, std::string> map_arguments;
   std::ifstream &config_file;
-  void ParseAtributes();
+  void ParseAttributes();
   void ParseRulesPriority();
   int keywords(const std::string &keyword);
   void ReadConfigFile();
