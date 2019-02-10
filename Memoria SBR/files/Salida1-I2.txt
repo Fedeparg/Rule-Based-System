@@ -1,0 +1,19 @@
+-Dominio: DETECCION DE INUNDACIONES
+-Atributo objetivo: "Inundacion"
+
+La base de hechos inicial es la siguiente: 
+- Nivel = Bajo
+- Profundidad = 2
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- Profundidad < 3 ENTONCES Nivel = Bajo
+- Nivel = Bajo ENTONCES Inundacion = No
+Tras comparar prioridades, añadimos la conclusion: 'Inundacion = No' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- Inundacion = No
+- Nivel = Bajo
+- Profundidad = 2
+
+Solucion: Inundacion = No

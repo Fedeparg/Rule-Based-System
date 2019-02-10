@@ -1,0 +1,7 @@
+-Dominio: IDENTIFICACION DE FRUTAS
+-Atributo objetivo: "Fruta"
+
+He seguido el siguiente razonamiento para alcanzar la conclusion. La ultima regla se corresponde con la que devuelve la conclusion:
+- Forma = Redonda Y Diametro < 10 ENTONCES ClaseFrutal = Arbol
+- NSemillas = 1 ENTONCES TipoSemilla = Hueso
+- ClaseFrutal = Arbol Y Color = Naranja Y TipoSemilla = Hueso ENTONCES Fruta = Albaricoque

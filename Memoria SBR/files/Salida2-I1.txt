@@ -1,0 +1,7 @@
+-Dominio: DETECCION DE INUNDACIONES
+-Atributo objetivo: "Inundacion"
+
+He seguido el siguiente razonamiento para alcanzar la conclusion. La ultima regla se corresponde con la que devuelve la conclusion:
+- Precipitaciones = Fuertes ENTONCES Cambio = Subiendo
+- Profundidad >= 3 Y Profundidad <= 5 ENTONCES Nivel = Normal
+- Cambio = Subiendo Y Nivel = Normal ENTONCES Inundacion = No

@@ -1,0 +1,50 @@
+-Dominio: IDENTIFICACION DE FRUTAS
+-Atributo objetivo: "Fruta"
+
+La base de hechos inicial es la siguiente: 
+- Color = Verde
+- Diametro = 11
+- NSemillas = 2
+- Forma = Redonda
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- NSemillas > 1 ENTONCES TipoSemilla = Multiple
+- Forma = Redonda Y Diametro >= 10 ENTONCES ClaseFrutal = Emparrado
+Tras comparar prioridades, añadimos la conclusion: 'TipoSemilla = Multiple' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- TipoSemilla = Multiple
+- Color = Verde
+- Diametro = 11
+- NSemillas = 2
+- Forma = Redonda
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- Forma = Redonda Y Diametro >= 10 ENTONCES ClaseFrutal = Emparrado
+Tras comparar prioridades, añadimos la conclusion: 'ClaseFrutal = Emparrado' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- ClaseFrutal = Emparrado
+- TipoSemilla = Multiple
+- Color = Verde
+- Diametro = 11
+- NSemillas = 2
+- Forma = Redonda
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- ClaseFrutal = Emparrado Y Color = Verde ENTONCES Fruta = Sandia
+Tras comparar prioridades, añadimos la conclusion: 'Fruta = Sandia' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- Fruta = Sandia
+- ClaseFrutal = Emparrado
+- TipoSemilla = Multiple
+- Color = Verde
+- Diametro = 11
+- NSemillas = 2
+- Forma = Redonda
+
+Solucion: Fruta = Sandia

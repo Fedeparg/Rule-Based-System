@@ -1,0 +1,49 @@
+-Dominio: DETECCION DE INUNDACIONES
+-Atributo objetivo: "Inundacion"
+
+La base de hechos inicial es la siguiente: 
+- Precipitaciones = Fuertes
+- Mes = Noviembre
+- Profundidad = 4
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- Mes = Noviembre ENTONCES Estacion = Humeda
+- Precipitaciones = Fuertes ENTONCES Cambio = Subiendo
+- Profundidad >= 3 Y Profundidad <= 5 ENTONCES Nivel = Normal
+Tras comparar prioridades, añadimos la conclusion: 'Cambio = Subiendo' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- Cambio = Subiendo
+- Precipitaciones = Fuertes
+- Mes = Noviembre
+- Profundidad = 4
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- Mes = Noviembre ENTONCES Estacion = Humeda
+- Profundidad >= 3 Y Profundidad <= 5 ENTONCES Nivel = Normal
+Tras comparar prioridades, añadimos la conclusion: 'Nivel = Normal' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- Nivel = Normal
+- Cambio = Subiendo
+- Precipitaciones = Fuertes
+- Mes = Noviembre
+- Profundidad = 4
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- Mes = Noviembre ENTONCES Estacion = Humeda
+- Cambio = Subiendo Y Nivel = Normal ENTONCES Inundacion = No
+Tras comparar prioridades, añadimos la conclusion: 'Inundacion = No' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- Inundacion = No
+- Nivel = Normal
+- Cambio = Subiendo
+- Precipitaciones = Fuertes
+- Mes = Noviembre
+- Profundidad = 4
+
+Solucion: Inundacion = No

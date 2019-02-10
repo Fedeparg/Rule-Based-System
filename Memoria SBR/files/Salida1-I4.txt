@@ -1,0 +1,35 @@
+-Dominio: DETECCION DE INUNDACIONES
+-Atributo objetivo: "Inundacion"
+
+La base de hechos inicial es la siguiente: 
+- Mes = Agosto
+- Nivel = Alto
+- Precipitaciones = Fuertes
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- Mes = Agosto ENTONCES Estacion = Seca
+- Precipitaciones = Fuertes ENTONCES Cambio = Subiendo
+Tras comparar prioridades, añadimos la conclusion: 'Cambio = Subiendo' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- Cambio = Subiendo
+- Mes = Agosto
+- Nivel = Alto
+- Precipitaciones = Fuertes
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- Mes = Agosto ENTONCES Estacion = Seca
+Tras comparar prioridades, añadimos la conclusion: 'Estacion = Seca' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- Estacion = Seca
+- Cambio = Subiendo
+- Mes = Agosto
+- Nivel = Alto
+- Precipitaciones = Fuertes
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+
+No quedan reglas posibles que comparar con los hechos actuales. No se ha podido llegar a una conclusion

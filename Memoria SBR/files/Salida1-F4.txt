@@ -1,0 +1,55 @@
+-Dominio: IDENTIFICACION DE FRUTAS
+-Atributo objetivo: "Fruta"
+
+La base de hechos inicial es la siguiente: 
+- Diametro = 6
+- NSemillas = 1
+- Forma = Redonda
+- Color = Naranja
+- ClaseFrutal = Arbol
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- Forma = Redonda Y Diametro < 10 ENTONCES ClaseFrutal = Arbol
+- NSemillas = 1 ENTONCES TipoSemilla = Hueso
+Tras comparar prioridades, añadimos la conclusion: 'ClaseFrutal = Arbol' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- ClaseFrutal = Arbol
+- Diametro = 6
+- NSemillas = 1
+- Forma = Redonda
+- Color = Naranja
+- ClaseFrutal = Arbol
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- NSemillas = 1 ENTONCES TipoSemilla = Hueso
+Tras comparar prioridades, añadimos la conclusion: 'TipoSemilla = Hueso' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- TipoSemilla = Hueso
+- ClaseFrutal = Arbol
+- Diametro = 6
+- NSemillas = 1
+- Forma = Redonda
+- Color = Naranja
+- ClaseFrutal = Arbol
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- ClaseFrutal = Arbol Y Color = Naranja Y TipoSemilla = Hueso ENTONCES Fruta = Albaricoque
+- ClaseFrutal = Arbol Y Color = Naranja Y TipoSemilla = Hueso ENTONCES Fruta = Melocoton
+Tras comparar prioridades, añadimos la conclusion: 'Fruta = Albaricoque' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- Fruta = Albaricoque
+- TipoSemilla = Hueso
+- ClaseFrutal = Arbol
+- Diametro = 6
+- NSemillas = 1
+- Forma = Redonda
+- Color = Naranja
+- ClaseFrutal = Arbol
+
+Solucion: Fruta = Albaricoque

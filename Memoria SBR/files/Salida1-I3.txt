@@ -1,0 +1,62 @@
+-Dominio: DETECCION DE INUNDACIONES
+-Atributo objetivo: "Inundacion"
+
+La base de hechos inicial es la siguiente: 
+- Prediccion = Tormenta
+- Profundidad = 6
+- Precipitaciones = Fuertes
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- Precipitaciones = Fuertes ENTONCES Cambio = Subiendo
+- Profundidad > 5 ENTONCES Nivel = Alto
+- Prediccion = Tormenta ENTONCES Lluvia = Fuerte
+Tras comparar prioridades, añadimos la conclusion: 'Lluvia = Fuerte' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- Lluvia = Fuerte
+- Prediccion = Tormenta
+- Profundidad = 6
+- Precipitaciones = Fuertes
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- Precipitaciones = Fuertes ENTONCES Cambio = Subiendo
+- Profundidad > 5 ENTONCES Nivel = Alto
+Tras comparar prioridades, añadimos la conclusion: 'Cambio = Subiendo' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- Cambio = Subiendo
+- Lluvia = Fuerte
+- Prediccion = Tormenta
+- Profundidad = 6
+- Precipitaciones = Fuertes
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- Profundidad > 5 ENTONCES Nivel = Alto
+Tras comparar prioridades, añadimos la conclusion: 'Nivel = Alto' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- Nivel = Alto
+- Cambio = Subiendo
+- Lluvia = Fuerte
+- Prediccion = Tormenta
+- Profundidad = 6
+- Precipitaciones = Fuertes
+
+Analizando posibles reglas a aplicar con la configuracion actual...
+Las conclusiones de las siguientes reglas pueden ser incluidas:
+- Cambio = Subiendo Y Nivel = Alto Y Lluvia = Fuerte ENTONCES Inundacion = Si
+Tras comparar prioridades, añadimos la conclusion: 'Inundacion = Si' a la base de hechos.
+
+La base de hechos queda actualizada con los siguientes datos:
+- Inundacion = Si
+- Nivel = Alto
+- Cambio = Subiendo
+- Lluvia = Fuerte
+- Prediccion = Tormenta
+- Profundidad = 6
+- Precipitaciones = Fuertes
+
+Solucion: Inundacion = Si

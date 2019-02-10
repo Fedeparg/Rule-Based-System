@@ -1,0 +1,5 @@
+-Dominio: DETECCION DE INUNDACIONES
+-Atributo objetivo: "Inundacion"
+
+
+No quedan reglas posibles que comparar con los hechos actuales. No se ha podido llegar a una conclusion

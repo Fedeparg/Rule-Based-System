@@ -1,0 +1,9 @@
+3
+Profundidad = 4
+Mes = Noviembre
+Precipitaciones = Fuertes
+
+Estacion = Humeda
+Cambio = Subiendo
+Nivel = Normal
+Inundacion = No
