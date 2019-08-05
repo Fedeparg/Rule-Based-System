@@ -44,6 +44,10 @@ void KnowledgeBase::SetRules(list<Rule> new_rules)
   rules = new_rules;
 }
 
+string KnowledgeBase::GetGoal() {
+  return conf.GetGoal();
+}
+
 void KnowledgeBase::ParseRules(const string &line)
 {
   int num_sub_rules = 1;
@@ -73,7 +77,7 @@ void KnowledgeBase::ParseRules(const string &line)
     ++index;
   }
   Rule r;
-  r.SetRuleNumber(parsed_rules+1);
+  r.SetRuleNumber(parsed_rules + 1);
   r.SetRulePriority(conf.GetRulePriority(parsed_rules));
   r.SetSubRules(*table);
   r.SetNumSubRules(num_sub_rules);
@@ -96,8 +100,8 @@ void KnowledgeBase::ReadKnowledgeBase()
   file_kb.close();
 }
 
-KnowledgeBase::KnowledgeBase(ifstream &file_kb, Config *conf_obj)
-    : file_kb(file_kb), conf(*conf_obj)
+KnowledgeBase::KnowledgeBase(ifstream &file_kb, ifstream &file_conf)
+    : file_kb(file_kb), file_conf(file_conf), conf(file_conf)
 {
   // Initialize the values
   SetNumRules(0);
@@ -108,5 +112,8 @@ KnowledgeBase::KnowledgeBase(ifstream &file_kb, Config *conf_obj)
 
 KnowledgeBase::~KnowledgeBase()
 {
-  file_kb.close();
+  for (list<Rule>::iterator i = rules.begin(); i != rules.end(); ++i)
+  {
+    delete[] i->GetSubRules();
+  }
 }

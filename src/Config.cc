@@ -54,7 +54,7 @@ void Config::ParseRulesPriority()
     rules_priority[i] = value;
   }
 
-  SetRulesPriority(rules_priority);
+  // SetRulesPriority(rules_priority);
 }
 
 void Config::ParseAttributes()
@@ -146,10 +146,10 @@ Config::Config(ifstream &config_file) : config_file(config_file)
 
   // Read the file
   ReadConfigFile();
+  config_file.close();
 }
 
 Config::~Config()
 {
   delete[] rules_priority;
-  config_file.close();
 }

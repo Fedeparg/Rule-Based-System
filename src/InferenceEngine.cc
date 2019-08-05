@@ -16,15 +16,15 @@ extern ofstream f1;
 extern ofstream f2;
 
 // Main algorithm for the program
-bool InferenceEngine::ForwardChaining(KnowledgeBase &kb, Config &c, FactsBase &fb)
+bool InferenceEngine::ForwardChaining(KnowledgeBase &kb, FactsBase &fb)
 {
   // Put the requested things on the files
   f1 << "-Dominio: " << kb.GetDomain() << endl
-     << "-Atributo objetivo: \"" << c.GetGoal() << "\"" << endl
+     << "-Atributo objetivo: \"" << kb.GetGoal() << "\"" << endl
      << endl;
 
   f2 << "-Dominio: " << kb.GetDomain() << endl;
-  f2 << "-Atributo objetivo: \"" << c.GetGoal() << "\"" << endl
+  f2 << "-Atributo objetivo: \"" << kb.GetGoal() << "\"" << endl
      << endl;
 
   // Gets the list of facts
@@ -47,7 +47,7 @@ bool InferenceEngine::ForwardChaining(KnowledgeBase &kb, Config &c, FactsBase &f
   SearchRules(conflict, rules, facts);
 
   // Start to apply rules
-  while (!GoalFound(facts, c.GetGoal()) && !conflict.empty())
+  while (!GoalFound(facts, kb.GetGoal()) && !conflict.empty())
   {
     // We resolve the conflict set and adds it as a new fact
     facts.push_front(Resolve(conflict, facts));
@@ -63,7 +63,7 @@ bool InferenceEngine::ForwardChaining(KnowledgeBase &kb, Config &c, FactsBase &f
     f1 << endl;
 
     // If the goal is still not found, search for rules again and repeat
-    if (!GoalFound(facts, c.GetGoal()))
+    if (!GoalFound(facts, kb.GetGoal()))
     {
       SearchRules(conflict, rules, facts);
     }
@@ -254,8 +254,8 @@ Attribute InferenceEngine::Resolve(list<Rule> &conflicto, list<Attribute> &facts
       it = i;
     }
   }
-  conflicto.erase(it);
   r = *it;
+  conflicto.erase(it);
 
   // Adding the rules applied to the new attribute used as fact
   list<int> list_this;

@@ -59,12 +59,11 @@ int main(int argc, char const *argv[])
   }
 
   // Creates the 3 objects used for the 3 files
-  Config *c = new Config(config_file);
-  KnowledgeBase *kb = new KnowledgeBase(file_kb, c);
+  KnowledgeBase *kb = new KnowledgeBase(file_kb, config_file);
   FactsBase *fb = new FactsBase(file_facts);
 
   // Calls the inference engine and start processing the solution
-  InferenceEngine::ForwardChaining(*kb, *c, *fb);
+  InferenceEngine::ForwardChaining(*kb, *fb);
 
   // Delete the objects and all his allocated memory
   delete kb;

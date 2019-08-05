@@ -10,7 +10,7 @@
 #include "Rule.h"
 
 namespace InferenceEngine {
-  bool ForwardChaining(KnowledgeBase &kb, Config &conf, FactsBase &facts);
+  bool ForwardChaining(KnowledgeBase &kb, FactsBase &facts);
   bool GoalFound(std::list<Attribute> &facts, std::string goal);
   void SearchRules(std::list<Rule> &conflict, std::list<Rule> &rules, std::list<Attribute> &facts);
   bool CompareAttributes(Attribute &a1, Attribute &a2);
