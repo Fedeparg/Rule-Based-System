@@ -120,13 +120,20 @@ void InferenceEngine::SearchRules(list<Rule> &conflict, list<Rule> &rules, list<
     {
       bool flag_condition = false;
 
-      for (list<Attribute>::iterator fact = facts.begin(); fact != facts.end(); ++fact)
+      // for (list<Attribute>::iterator fact = facts.begin(); fact != facts.end(); ++fact)
+      // {
+      //   if (CompareAttributes(subrules[i], *fact))
+      //   {
+      //     flag_condition = true;
+      //   }
+      // }
+      list<Attribute>::iterator fact = facts.begin();
+      while (flag_condition != true && fact != facts.end())
       {
-        if (CompareAttributes(subrules[i], *fact))
-        {
-          flag_condition = true;
-        }
+        flag_condition = CompareAttributes(subrules[i], *fact);
+        ++fact;
       }
+      
 
       if (flag_condition == false)
       {
@@ -174,36 +181,27 @@ bool InferenceEngine::OpToCode(Attribute &a1, Attribute &a2)
   int v2 = atoi(strcpy(array2, a2.GetValue().c_str()));
   if (a1.GetOp().compare(">") == 0)
   {
-    if (v2 > v1)
-    {
-      return true;
-    }
+    return (v2 > v1);
   }
 
   if (a1.GetOp().compare("<") == 0)
   {
-    if (v2 < v1)
-      return true;
+    return (v2 < v1);
   }
 
   if (a1.GetOp().compare(">=") == 0)
   {
-    if (v2 >= v1)
-    {
-      return true;
-    }
+    return (v2 >= v1);
   }
 
   if (a1.GetOp().compare("<=") == 0)
   {
-    if (v2 <= v1)
-      return true;
+    return (v2 <= v1);
   }
 
   if (a1.GetOp().compare("=") == 0)
   {
-    if (v2 == v1)
-      return true;
+    return (v2 == v1);
   }
 
   return false;
@@ -213,11 +211,7 @@ bool InferenceEngine::OpToCode(Attribute &a1, Attribute &a2)
 // same attribute (as text). False otherwise
 bool InferenceEngine::CompareJustAttributes(Attribute &a1, Attribute &a2)
 {
-  if (a1.GetAttribute().compare(a2.GetAttribute()) == 0)
-  {
-    return true;
-  }
-  return false;
+  return (a1.GetAttribute().compare(a2.GetAttribute()) == 0);
 }
 
 // With the rules in conflict, we select which rule to be applied, based on
