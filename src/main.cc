@@ -47,7 +47,7 @@ int main(int argc, char const *argv[])
   f2.open(concat2);
 
   // Checks if the files can be opened
-  for (int i = 1; i <= 3; i++)
+  for (int i = 1; i < argc; i++)
   {
     if (argv[i] == NULL || !CheckFile(file_kb, argv[i]))
     {

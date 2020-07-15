@@ -44,7 +44,8 @@ void KnowledgeBase::SetRules(list<Rule> new_rules)
   rules = new_rules;
 }
 
-string KnowledgeBase::GetGoal() {
+string KnowledgeBase::GetGoal()
+{
   return conf.GetGoal();
 }
 
@@ -59,11 +60,12 @@ void KnowledgeBase::ParseRules(const string &line)
   s >> st1;
   while (s >> st1)
   {
-    char tmp[st1.size()];
+    char *tmp = new char[st1.size()+1];
     strcpy(tmp, st1.c_str());
     if (strcmp(tmp, "y") == 0)
       ++num_sub_rules;
 
+    delete[] tmp;
     Attribute atr;
     s >> st1;
     atr.SetAttribute(st1);
@@ -76,6 +78,7 @@ void KnowledgeBase::ParseRules(const string &line)
     table[index] = atr;
     ++index;
   }
+
   Rule r;
   r.SetRuleNumber(parsed_rules + 1);
   r.SetRulePriority(conf.GetRulePriority(parsed_rules));

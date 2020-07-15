@@ -120,20 +120,12 @@ void InferenceEngine::SearchRules(list<Rule> &conflict, list<Rule> &rules, list<
     {
       bool flag_condition = false;
 
-      // for (list<Attribute>::iterator fact = facts.begin(); fact != facts.end(); ++fact)
-      // {
-      //   if (CompareAttributes(subrules[i], *fact))
-      //   {
-      //     flag_condition = true;
-      //   }
-      // }
       list<Attribute>::iterator fact = facts.begin();
       while (flag_condition != true && fact != facts.end())
       {
         flag_condition = CompareAttributes(subrules[i], *fact);
         ++fact;
       }
-      
 
       if (flag_condition == false)
       {
@@ -175,10 +167,14 @@ bool InferenceEngine::CompareAttributes(Attribute &a1, Attribute &a2)
 // Turns an operation into code. Used for numeric attributes
 bool InferenceEngine::OpToCode(Attribute &a1, Attribute &a2)
 {
-  char array1[a1.GetValue().size()];
+  char *array1 = new char[a1.GetValue().size() + 1];
+  char *array2 = new char[a2.GetValue().size() + 1];
   int v1 = atoi(strcpy(array1, a1.GetValue().c_str()));
-  char array2[a2.GetValue().size()];
   int v2 = atoi(strcpy(array2, a2.GetValue().c_str()));
+
+  delete[] array1;
+  delete[] array2;
+
   if (a1.GetOp().compare(">") == 0)
   {
     return (v2 > v1);

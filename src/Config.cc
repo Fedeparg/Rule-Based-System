@@ -70,12 +70,13 @@ void Config::ParseAttributes()
     map_arguments.insert(pair<string, string>(attribute, type));
 
     int tmp_size = type.size() + 1;
-    char tmp[tmp_size];
+    char *tmp = new char[tmp_size];
     strcpy(tmp, type.c_str());
     if (strcmp(tmp, "NU") != 0)
     {
       config_file >> attribute;
     }
+    delete[] tmp;
   }
   getline(config_file, attribute);
 }
@@ -83,7 +84,7 @@ void Config::ParseAttributes()
 int Config::keywords(const string &keyword)
 {
   int kyw_size = keyword.size() + 1;
-  char kyw[kyw_size];
+  char *kyw = new char[kyw_size];
   strcpy(kyw, keyword.c_str());
 
   for (int i = 0; i < kyw_size; ++i)
@@ -91,21 +92,23 @@ int Config::keywords(const string &keyword)
     kyw[i] = toupper(kyw[i]);
   }
 
+  int result = 0;
   if (strcmp(kyw, "ATRIBUTOS") == 0)
   {
-    return 1;
+    result = 1;
   }
   else if (strcmp(kyw, "OBJETIVO") == 0)
   {
-    return 2;
+    result = 2;
   }
   else if (strcmp(kyw, "PRIORIDADES-REGLAS") == 0)
   {
-    return 3;
+    result = 3;
   }
 
+  delete[] kyw;
   // If the keyword is not recognized, is ignored
-  return 0;
+  return result;
 }
 
 void Config::ReadConfigFile()
